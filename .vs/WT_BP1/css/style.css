@@ -12,7 +12,12 @@ ul {
 }
 
 li {
-    float: left;
+    float:   left;
+}
+
+@keyframes menuHoverFade {
+    from {background-color: #333}
+    to {background-color: #0081d6}
 }
 
 li a {
@@ -25,7 +30,9 @@ li a {
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #111;
+    animation-name: menuHoverFade;
+    animation-duration: 0.5s;
+    background-color: #0081d6;
 }
 .active {
     background-color: yellow;
@@ -39,6 +46,11 @@ li a:hover {
     margin: 30px 50px 0px 50px;
 }
 
+.content-block {
+    width: 50%;
+    margin: auto;
+}
+
 .block {
-    margin: 15px;
+    padding: 10px 0px 10px 0px;
 }
