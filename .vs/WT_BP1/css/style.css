@@ -20,6 +20,10 @@ li {
     to {background-color: #0081d6}
 }
 
+.menu-right {
+    float: right !important;
+}
+
 li a {
     display: block;
     color: white;
