@@ -58,11 +58,11 @@ li a {
 
 .content {
     background-color: lightgray;
-    margin: 30px 50px 0px 50px;
+    margin: 45px 10% 0px 10%;
 }
 
 .content-block {
-    width: 50%;
+    width: 60%;
     margin: auto;
 }
 
