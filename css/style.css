@@ -21,6 +21,11 @@ ul li {
     to {background-color: #0081d6}
 }
 
+@keyframes menuHoverFadeActive {
+    from {background-color: Yellow}
+    to {background-color: #0081d6}
+}
+
 .menu-right {
     float: right !important;
 }
@@ -34,13 +39,18 @@ li a {
 }
 
 /* Change the link color to #111 (black) on hover */
-li a:hover {
+.menu-item:hover {
     animation-name: menuHoverFade;
     animation-duration: 0.5s;
     background-color: #0081d6;
 }
 .active {
     background-color: yellow;
+}
+/*fade from yellow to blue on the active page link */
+.active:hover {
+    animation-name: menuHoverFadeActive !important;
+    animation-duration: 0.5s;
 }
 .flex-container {
     display: flex;
@@ -60,16 +70,29 @@ li a:hover {
     padding: 10px 0px 10px 0px;
 }
 
-#test-header {
+.site-header {
     padding: 0px;
-    margin: 0px;
     background-color: orange;
     text-align: center;
     color: white;
     width: 100%;
+    margin: 0;
+}
+
+.site-header-block {
+    width: 50%;
+    margin: auto auto;
+
+}
+
+.header-img {
+    max-height: 42px;
+    float: left;
+    padding: 8px;
 }
 
 .site-title {
+    font-size: 36px;
     margin: 0px;
-    padding: 0px;
+    padding: 8px 0px 8px 0px;
 }
