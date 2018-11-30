@@ -61,6 +61,11 @@ li a {
     margin: 45px 10% 0px 10%;
 }
 
+.small-content {
+    width: 60%;
+    margin: 45px auto 0px auto;
+}
+
 .content-block {
     width: 60%;
     margin: auto;
@@ -95,4 +100,8 @@ li a {
     font-size: 36px;
     margin: 0px;
     padding: 8px 0px 8px 0px;
+}
+
+.round-edge {
+    border-radius: 25px;
 }
