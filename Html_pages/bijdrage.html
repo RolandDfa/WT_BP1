@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <meta charset="utf-8" />
+    <title>Over ons</title>
+</head>
+<body>
+<div class="header">
+    <div class="menu-block">
+        <div class="site-header">
+            <a href="../index.html">
+                <img class="header-img" src="../images/Soccerball.svg" alt="voetbal_logo" /></a>
+            <h1 class="site-title">Füssball Inside Nimma</h1>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a class="menu-item" href="../index.html">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">Video's
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a class="menu-item" href="sub_video_pages/spelregels.html">Spelregels</a>
+                <a class="menu-item" href="sub_video_pages/tactiek.html">Tactiek</a>
+                <a class="menu-item" href="sub_video_pages/Bloopers.html">Bloopers</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Forum
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a class="menu-item" href="sub_forum_pages/algemeen.html">Algemeen</a>
+                <a class="menu-item" href="sub_forum_pages/wedstrijden.html">Wedstrijden</a>
+                <a class="menu-item" href="sub_forum_pages/onzin_forum.html">Onzin</a>
+            </div>
+        </div>
+        <a class="menu-item" href="over_ons.html">Over ons</a>
+        <a class="menu-item menu-right" href="register.html">Bezoeker</a>
+    </div>
+</div>
+<div class="content">
+    <div class="content-block">
+        <div class="block">
+            <form name="contactform" method="post" action="">
+
+                <table  width="450px">
+
+                    <tr>
+                        <td valign="top">
+                            <p for="first_name">Voormaan *</p>
+                        </td>
+                        <td valign="top">
+                            <input  type="text" name="first_name" maxlength="50" size="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p for="last_name">Achternaam *</p>
+                        </td>
+                        <td valign="top">
+                            <input type="text" name="last_name" maxlength="50" size="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p for="email">Email *</p>
+                        </td>
+                        <td valign="top">
+                            <input  type="text" name="email" maxlength="80" size="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p for="telephone">Telefoon nummer</p>
+                        </td>
+                        <td valign="top">
+                            <input  type="text" name="telephone" maxlength="30" size="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p for="comments">Bericht *</p>
+                        </td>
+                        <td valign="top">
+                            <textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center">
+                            <input type="submit" value="Submit" name="submit">
+                        </td>
+                    </tr>
+                </table>
+                <p>* verplicht</p>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
