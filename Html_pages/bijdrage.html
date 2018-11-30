@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <meta charset="utf-8" />
-    <title>Over ons</title>
+    <title>Bijdrage</title>
 </head>
 <body>
 <div class="header">
@@ -45,57 +45,21 @@
 <div class="content">
     <div class="content-block">
         <div class="block">
-            <form name="contactform" method="post" action="">
-
-                <table  width="450px">
-
-                    <tr>
-                        <td valign="top">
-                            <p for="first_name">Voormaan *</p>
-                        </td>
-                        <td valign="top">
-                            <input  type="text" name="first_name" maxlength="50" size="30">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top">
-                            <p for="last_name">Achternaam *</p>
-                        </td>
-                        <td valign="top">
-                            <input type="text" name="last_name" maxlength="50" size="30">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top">
-                            <p for="email">Email *</p>
-                        </td>
-                        <td valign="top">
-                            <input  type="text" name="email" maxlength="80" size="30">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top">
-                            <p for="telephone">Telefoon nummer</p>
-                        </td>
-                        <td valign="top">
-                            <input  type="text" name="telephone" maxlength="30" size="30">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top">
-                            <p for="comments">Bericht *</p>
-                        </td>
-                        <td valign="top">
-                            <textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align:center">
-                            <input type="submit" value="Submit" name="submit">
-                        </td>
-                    </tr>
-                </table>
-                <p>* verplicht</p>
+            <h2>Bijdrage leveren</h2>
+            <form action="#">
+                Voornaam:<br>
+                <input type="text" name="voornaam" placeholder="Voornaam">
+                <br>
+                Achternaam:<br>
+                <input type="text" name="achternaam" placeholder="achternaam">
+                <br><br>
+                Email:<br>
+                <input type="text" name="mail" placeholder="mail">
+                <br><br>
+                Bericht:<br>
+                <textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
+                <br><br>
+                <input type="submit" value="Submit">
             </form>
         </div>
     </div>
