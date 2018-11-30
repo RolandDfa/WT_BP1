@@ -26,6 +26,11 @@ body {
 .active {
     background-color: yellow;
 }
+
+.about-img{
+    max-width: 50%;
+}
+
 /*fade from yellow to blue on the active page link */
 .active:hover {
     animation-name: menuHoverFadeActive !important;
