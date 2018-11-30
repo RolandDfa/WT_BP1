@@ -71,7 +71,6 @@ li a {
     margin: auto;
 }
 
-
 .block {
     padding: 10px 0px 10px 0px;
 }
@@ -141,4 +140,46 @@ li.dropdown {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.forum-even {
+    background-color: lightblue;
+    padding: 0px;
+}
+
+.forum-even, .forum-uneven, .table-header {
+    padding: 0;
+    margin: 0;
+}
+
+.topic-title {
+    width: 60%;
+}
+
+.topic-user {
+    width: 25%;
+}
+
+.topic-date {
+    width: 15%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+}
+
+td a {
+    text-decoration: none;
+    color: black;
+}
+
+thead {
+    background-color: greenyellow;
+}
+
+.forum-uneven {
+    background-color: #f1f1f1;
 }
