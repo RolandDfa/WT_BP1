@@ -61,9 +61,31 @@ li a {
     margin: 45px 10% 0px 10%;
 }
 
+.forum-content {
+    margin: 45px 10% 0px 10%;
+}
+
+.forum-block {
+    background-color: lightgray;
+    padding: 5px;
+    margin: 5px 0px 5px 0px;
+}
+
+.forum-topic-title {
+
+}
+
+.forum-block-inner {
+    padding: 15px;
+}
+
 .content-block {
     width: 60%;
     margin: auto;
+}
+
+.round-edge {
+    border-radius: 25px;
 }
 
 .block {
