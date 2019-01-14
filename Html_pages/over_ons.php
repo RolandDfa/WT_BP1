@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-
+<?phprequire("../../functions.php");
+require('../../dbConnection.php');
+?>
 <html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -7,41 +9,7 @@
     <title>Over ons</title>
 </head>
 <body>
-<div class="header">
-    <div class="menu-block">
-        <div class="site-header">
-            <a href="../index.html">
-                <img class="header-img" src="../images/Soccerball.svg" alt="voetbal_logo" /></a>
-            <h1 class="site-title">Füssball Inside Nimma</h1>
-        </div>
-    </div>
-
-    <div class="navbar">
-        <a class="menu-item" href="../index.html">Home</a>
-        <div class="dropdown">
-            <button class="dropbtn">Video's
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a class="menu-item" href="sub_video_pages/spelregels.html">Spelregels</a>
-                <a class="menu-item" href="sub_video_pages/tactiek.html">Tactiek</a>
-                <a class="menu-item" href="sub_video_pages/Bloopers.html">Bloopers</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">Forum
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a class="menu-item" href="sub_forum_pages/algemeen.html">Algemeen</a>
-                <a class="menu-item" href="sub_forum_pages/wedstrijden.html">Wedstrijden</a>
-                <a class="menu-item" href="sub_forum_pages/onzin_forum.html">Onzin</a>
-            </div>
-        </div>
-        <a class="menu-item" href="over_ons.html">Over ons</a>
-        <a class="menu-item menu-right" href="register.html">Bezoeker</a>
-    </div>
-</div>
+<?php require('../header.php'); ?>
 <div class="content">
     <div class="content-block">
         <div class="block">

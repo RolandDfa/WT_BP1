@@ -18,7 +18,7 @@ CheckSession();
 </head>
     <body>
         <!-- all the content on the top of the page -->
-        <?php require('header.html'); ?>
+        <?php require('header.php'); ?>
         <!-- block containing the main content of the page -->
         <div class="content">
             <div class="content-block">
