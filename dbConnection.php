@@ -1,14 +1,14 @@
 <?php
 $hostname = "(local)";
 $dbname = "themasite";
-$username = "sa";
-$pw = "Rol_dfa123";
+$username = "";
+$pw = "";
 
 
 try
 {
     $dbh = new PDO("sqlsrv:Server=$hostname;Database=$dbname; ConnectionPooling=0", "$username", "$pw");
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 
 catch (PDOException $e) {
