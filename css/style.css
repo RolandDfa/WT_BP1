@@ -45,6 +45,8 @@ body {
     margin: 45px 10% 0px 10%;
 }
 
+/* FORUM SPECIFIEKE CSS */
+
 .forum-content {
     margin: 45px 10% 0px 10%;
 }
@@ -56,12 +58,34 @@ body {
 }
 
 .forum-topic-title {
-
+	margin-bottom: 25px !important;
 }
 
 .forum-block-inner {
     padding: 15px;
 }
+
+.inline-forum-title {
+	display: inline;
+}
+
+.forum-small {
+	font-size: 14px;
+	color: grey;
+	display: inline;
+}
+
+.forum-time {
+	display: inline;
+	/*float: right;*/
+	margin-right: 30px;
+}
+
+.forumpost-meta {
+	padding-bottom: 18px;
+}
+
+/* ----------- */
 
 .content-block {
     width: 60%;

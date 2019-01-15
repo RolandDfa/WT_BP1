@@ -27,15 +27,32 @@ function GetAllForumPosts($dbh, $category) {
 	return $data;
 }
 
+//haal alle titels op van forum posts en maak er een tabel van
 function CreateForumOverview($posts) {
 	$ret = "";
 	foreach($posts as $post) {
 		$ret = $ret.'<tr class="forum-even">';
-		$ret = $ret.'<td class="topic-title"><a href="./topics_algemeen/johan_derksen.html">'.$post['kopje'].'</a></td>';
+		$ret = $ret.'<td class="topic-title"><a href="./forumpost.php?id='.$post['id'].'">'.$post['kopje'].'</a></td>';
 		$ret = $ret.'<td class="topic-user">'.$post['bezoeker'].'</td>';
 		$ret = $ret.'<td class="topic-date">'.gmdate("Y-m-d\ H:i:s", $post['unixtijd']).'</td>';
 		$ret = $ret.'</tr>';
 	}
 	
 	return $ret;
-}			
+}
+
+function GetForumPost($dbh, $id) {
+	$stmt = $dbh->prepare('SELECT * FROM posts WHERE id = :id');
+	$stmt->execute([':id'=>$id]);
+	$data = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+	return $data;
+}
+
+function GetPostReplies($dbh, $postID) {
+	$stmt = $dbh->prepare("SELECT * FROM posts_replies WHERE post_id = :pid ORDER BY unixtijd asc");
+	$stmt->execute([':pid'=>$postID]);
+	$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	return $data;
+}
