@@ -48,6 +48,18 @@ if(isset($_POST['registerbtn']))
         $UserErr = "deze Username bestaat al, kies een andere";
         $CheckOnErrors = true;
     }
+    $Password = hash('sha384', $Password);
+    $parameters = array(':Name'=>$FirstName. ' ' . $LastName,
+        ':Username'=>$username,
+        ':Password'=>$Password);
+
+
+    $sth = $dbh->prepare('INSERT INTO bezoekers(login, naam, wachtwoord) VALUES
+(:Username, :Name, :Password)');
+
+    $sth->execute($parameters);
+
+    echo "U heeft zich succesvol geregistreerd.";
 }
 
 ?>
