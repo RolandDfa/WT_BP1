@@ -64,6 +64,9 @@ body {
 .forum-block-inner {
     padding: 15px;
 }
+.forum-block-inner-top {
+    padding: 0px 15px 0px 15px;
+}
 
 .inline-forum-title {
 	display: inline;
@@ -77,12 +80,15 @@ body {
 
 .forum-time {
 	display: inline;
-	/*float: right;*/
 	margin-right: 30px;
 }
 
 .forumpost-meta {
-	padding-bottom: 18px;
+	padding-bottom: 8px;
+}
+
+.reply-field {
+	width: 100%;
 }
 
 /* ----------- */

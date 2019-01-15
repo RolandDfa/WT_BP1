@@ -6,6 +6,12 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 
 $postData = GetForumPost($dbh, $id);
 $postReplies = GetPostReplies($dbh, $id);
+CheckSession();
+
+if(isset($_POST['opslaan'])) {
+	$text = isset($_POST['text']) ? $_POST['text'] : '';
+	
+}
 
 ?>
 
@@ -22,12 +28,15 @@ $postReplies = GetPostReplies($dbh, $id);
 <div class="forum-content">
     <div class="content-block">
         <div class="forum-block forum-topic-title">
-            <h2><?php echo $postData['kopje'];?></h2>
-            <div class="forumpost-meta">
-				<h4 class="inline-forum-title"><?php echo $postData['bezoeker'].'</h4><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $postData['unixtijd']);?></p>
+			<div class="forum-block-inner-top">
+				<h2><?php echo $postData['kopje'];?></h2>
+				<div class="forumpost-meta">
+					<h4 class="inline-forum-title"><?php echo $postData['bezoeker'].'</h4><br><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $postData['unixtijd']);?></p>
+				</div>
+				<hr />
+				<p><?php echo $postData['tekst']; ?></p>
+				<br>
 			</div>
-			<hr />
-			<p><?php echo $postData['tekst']; ?></p>
         </div>
 		
 		<?php
@@ -38,9 +47,27 @@ $postReplies = GetPostReplies($dbh, $id);
                 <h4 class="topic-user"><?php echo $reply['bezoeker'];?></h4>
                 <hr />
                 <p><?php echo $reply['tekst'].' - '.gmdate("Y-m-d\ H:i:s", $reply['unixtijd']);?></p>
+				<br>
             </div>
         </div>
-		<?php }
+		<?php 
+		}
+		if(isset($_SESSION['loggedIn'])) {
+		?>
+		<div class="forum-reply">
+			<div class="forum-block round-edge">
+				<div class="forum-block-inner">
+					<h4>Laat een reactie achter:</h4>
+					<form method="POST" action="">
+						<textarea rows=5 style="width: 100%;" class="reply-field" name="reply" placeholder="Typ hier je reactie..."></textarea>
+						<br>
+						<input type="submit" name="opslaan" value="verstuur reactie" />
+					</form>
+				</div>
+			</div>
+		</div>
+		<?php
+		}
 		require("../../footer.php");
 		?>
     </div>
