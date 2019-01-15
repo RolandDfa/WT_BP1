@@ -32,7 +32,7 @@ if(isset($_POST['login'])) {
 
 ?>
 
-<html>
+<html lang="Nl">
 	<body>
 		<form method="POST" action="">
 			<span style="color:red"><?php echo $loginErr;?></span>
@@ -43,7 +43,7 @@ if(isset($_POST['login'])) {
 				</tr>
 				<tr>
 					<td>wachtwoord:</td>
-					<td><input type="password" name="passwd" /></td>
+                    <td><label><input type="password" name="passwd" /></label></td>
 				</tr>
 				<tr>
 					<td><input type="submit" name="login" value="inloggen" /></td>

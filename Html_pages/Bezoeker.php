@@ -1,3 +1,35 @@
+<?php
+require('../dbConnection.php');
+require('../functions.php');
+CheckSession();
+if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
+header('Location: ../');
+}
+
+$loginErr = "";
+
+if(isset($_POST['login'])) {
+$username = isset($_POST['username']) ? $_POST['username'] : '';
+$passwd = isset($_POST['passwd']) ? $_POST['passwd'] : '';
+
+//hash het wachtwoord
+$passwd = hash('sha384', $passwd);
+
+$loginReturn = CheckLogin($dbh, $username, $passwd);
+if($loginReturn['code'] == 0) {
+$loginErr = "Foutieve inloggegevens";
+} else if($loginReturn['code'] == 1) {
+$_SESSION['loggedIn'] = true;
+$_SESSION['LoginName'] = $username;
+$_SESSION['name'] = $loginReturn['name'];
+header('Location: ../');
+} else {
+$loginErr = "Onbekende fout";
+}
+}
+
+
+?>
 <!DOCTYPE html>
 
 <html lang="nl-NL" xmlns="http://www.w3.org/1999/xhtml">
@@ -45,32 +77,38 @@
                     </div>
                 </div>
                 <a class="menu-item" href="over_ons.html">Over ons</a>
-                <a class="menu-item menu-right" href="register.html">Bezoeker</a>
+                <a class="menu-item menu-right" href="register.php">Bezoeker</a>
             </div>
     </div>
     <!-- block containing the main content of the page -->
-        <div class="content">
+        <div class="flex-container content">
             <div class="content-block">
                 <!-- the content itself -->
                 <div class="block">
                     <div class="login">
                         <h1>Login</h1>
                         <!-- login form -->
-                        <form method="post" action="../index.html">
-                            <p><input type="text" name="login" value="" placeholder="Email" required></p>
-                            <p><input type="password" name="password" value="" placeholder="Wachtwoord" required></p>
-                            <p class="remember_me">
-                                <label>
-                                    <input type="checkbox" name="remember_me" id="remember_me">
-                                    Onthoud mij op deze computer
-                                </label>
-                            </p>
-                            <p class="submit"><input type="submit" name="commit" value="Login"></p>
+                        <form method="POST" action="">
+                            <span style="color:red"><?php echo $loginErr;?></span>
+                            <table>
+                                <tr>
+                                    <td>gebruikersnaam:</td>
+                                    <td><input type="text" name="username" placeholder="username" /></td>
+                                </tr>
+                                <tr>
+                                    <td>wachtwoord:</td>
+                                    <td><label><input type="password" name="passwd" /></label></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="submit" name="login" value="inloggen" /></td>
+                                    <td></td>
+                                </tr>
+                            </table>
                         </form>
                     </div>
 
                     <div class="login-help">
-                        <p>Wachtwoord vergeten? <a href="../index.html">Klik hier om te resetten</a>.</p>
+                        <p>Wachtwoord vergeten? <a href="../index.php">Klik hier om te resetten</a>.</p>
                         <p>Bijdrage leveren? <a href="bijdrage.html">Klik hier om een bijdrage te leveren</a> </p>
                     </div>
                 </div>

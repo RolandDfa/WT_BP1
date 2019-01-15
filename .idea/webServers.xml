@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="d179dc7f-2eff-438c-9e81-3b024a0e8292" name="localdinges" url="http://localhost/WebTech_2018">
-        <fileTransfer port="0" mountedRoot="C:\xampp\htdocs\WebTech_2018" accessType="MOUNT" />
+      <webServer id="d179dc7f-2eff-438c-9e81-3b024a0e8292" name="localdinges" url="http://localhost/">
+        <fileTransfer port="0" mountedRoot="C:\xampp\htdocs" accessType="MOUNT" />
       </webServer>
     </option>
   </component>

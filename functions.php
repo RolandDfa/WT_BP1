@@ -56,3 +56,26 @@ function GetPostReplies($dbh, $postID) {
 	
 	return $data;
 }
+
+function is_minlength($Invoer, $MinLengte)
+{
+    return (strlen($Invoer) >= (int)$MinLengte);
+}
+function is_Char_Only($Invoer)
+{
+    return (bool)(preg_match("/^[a-zA-Z ]*$/", $Invoer)) ;
+}
+function is_Username_Unique($Invoer,$pdo)
+{
+    $parameters = array(':login'=>$Invoer);
+    $sth = $pdo->prepare('SELECT COUNT(login) FROM bezoekers WHERE login = :login');
+
+    $sth->execute($parameters);
+    $data = $sth->fetch(PDO::FETCH_NUM);
+
+    // controleren of de username voorkomt in de DB
+    if ($data[0] > 0)
+        return false;//username komt voor
+    else
+        return true;//username komt niet voor
+}
