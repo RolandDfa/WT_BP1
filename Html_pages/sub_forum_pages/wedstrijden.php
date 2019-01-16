@@ -16,6 +16,15 @@ CheckSession();
 <?php require('../../header.php');?>
 <div class="content">
     <div class="content-block">
+		<?php if(isset($_SESSION['loggedIn'])) { 
+			$cat = "wedstrijden";
+			$salt = $_SESSION['TOKENSALT'] = time();
+			$key = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
+		?>
+		<div class="forum-block-inner">
+			<a href="./startTopic.php?cat=<?php echo $cat.'&token='.$key;?>"><button>Start een nieuw topic</button></a>
+		</div>
+		<?php } ?>
         <div class="block">
             <h2>Forum</h2>
             <table>

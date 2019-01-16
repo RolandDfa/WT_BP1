@@ -5,17 +5,29 @@ function CheckSession() {
 	}
 }
 
+function ExecQuery($dbh, $q, $param) {
+	try {
+		$stmt = $dbh->prepare($q);
+		$stmt->execute($param);
+		$return = $stmt;
+	}
+	catch(PDOException $e) {
+		$return = $e.get_message();
+	}
+	return $return;
+}
+
 function CheckLogin($dbh, $user, $passwd) {
-	$stmt = $dbh->prepare("SELECT * FROM bezoekers WHERE login = :username");
-	$stmt->execute([':username'=>$user]);
+	$query = "SELECT * FROM bezoekers WHERE login = :username";
+	$params = ([':username'=>$user]);
+	$stmt = ExecQuery($dbh, $query, $params);
 	$data = $stmt->fetch(PDO::FETCH_ASSOC);
 	
 	$loginData['code'] = 0;
 	if($data['wachtwoord'] == $passwd) {
 		$loginData['code'] = 1;
 		$loginData['name'] = $data['naam'];
-	}
-	
+	}	
 	return $loginData;
 }
 
@@ -90,5 +102,11 @@ function CreateForumAccessToken($cat, $user, $salt) {
 
 function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
 	$stmt = $dbh->prepare("INSERT INTO posts (kopje, tekst, bezoeker, rubriek, unixtijd) VALUES (:title, :text, :user, :cat, :time)");
-	$stmt->execute([':title'=>$title, ':text'=>$text, ':user'=>$user, ':cat'=>$cat, ':time'=>$time]);
+	$stmt->execute([
+			':title'=>$title,
+			':text'=>$text,
+			':user'=>$user,
+			':cat'=>$cat,
+			':time'=>$time
+		]);
 }
