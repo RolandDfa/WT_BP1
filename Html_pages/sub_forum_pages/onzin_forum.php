@@ -2,6 +2,7 @@
 require("../../functions.php");
 require('../../dbConnection.php');
 
+CheckSession();
 ?>
 <!DOCTYPE html>
 

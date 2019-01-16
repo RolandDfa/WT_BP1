@@ -1,6 +1,8 @@
 <?php
 require ('../functions.php');
 require ('../dbConnection.php');
+
+CheckSession();
 $UserErr = "";
 
 if(isset($_POST['registerbtn']))

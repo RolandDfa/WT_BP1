@@ -10,7 +10,7 @@ CheckSession();
 
 if(isset($_POST['opslaan'])) {
 	$text = isset($_POST['text']) ? $_POST['text'] : '';
-	
+	$text = strip_tags($text);
 }
 
 ?>
