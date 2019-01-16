@@ -79,3 +79,11 @@ function is_Username_Unique($Invoer,$pdo)
     else
         return true;//username komt niet voor
 }
+
+function CreateForumAccessToken($cat, $user, $salt) {
+	$StageOneKey = hash('ripemd160', $user);
+	$StageTwoKey = hash('sha256', $StageOneKey.$cat);
+	$StageThreeKey = hash('crc32b', $StageTwoKey.$salt);
+	$key = $StageThreeKey;
+	return $key;
+}
