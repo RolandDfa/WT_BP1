@@ -7,14 +7,20 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 	$key = $_GET['token'];
 	$salt = $_SESSION['TOKENSALT'];
 	
+	$errMsg = "";
+	
 	$checkKey = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
 	//echo "check key is ".$checkKey."<br><br>Sent key is ".$key;
-	if(isset($_POST['send'] {
+	if(isset($_POST['send'])) {
 		$title = isset($_POST['title']) ? $_POST['title'] : '';
 		$text = isset($_POST['postText']) ? $_POST['postText'] : '';
+		$text = nl2br($text);
+		$user = $_SESSION['LoginName'];
+		$time = time();
 		//hier een functie die filtert op verboden karakters/code
 		
-		//hier een functie die het topic opslaat
+		CreateForumPost($dbh, $title, $text, $user, $cat, $time);
+		$errMsg = '<h2 style="color: green">Post succesvol opgeslagen</h2>';
 	}
 ?>
 <!DOCTYPE html>
@@ -32,13 +38,14 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 		<form method="POST" action="">
 			<div class="forum-block forum-topic-title">
 				<div class="forum-block-inner-top">
+					<?php echo $errMsg;?>
 					<h4>Categorie: <?php echo $cat;?></h4>
 					<h2>Titel:</h2>
 					<input class="fullfield" type="text" placeholder="Titel van je topic..." name="title" />
 					<br>
 					<hr>
 					<h2>Tekst:
-					<textarea rows="15" class="fullfield" name="postText" placeholder="Typ hier je reactie..."></textarea>
+					<textarea rows="15" class="fullfield" name="postText" placeholder="Typ hier je Bericht..."></textarea>
 					<input type="submit" value="Verstuur" name="send" />
 				</div>
 			</div>

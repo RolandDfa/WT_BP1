@@ -87,3 +87,8 @@ function CreateForumAccessToken($cat, $user, $salt) {
 	$key = $StageThreeKey;
 	return $key;
 }
+
+function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
+	$stmt = $dbh->prepare("INSERT INTO posts (kopje, tekst, bezoeker, rubriek, unixtijd) VALUES (:title, :text, :user, :cat, :time)");
+	$stmt->execute([':title'=>$title, ':text'=>$text, ':user'=>$user, ':cat'=>$cat, ':time'=>$time]);
+}
