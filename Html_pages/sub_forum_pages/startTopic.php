@@ -19,8 +19,10 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 		$time = time();
 		//hier een functie die filtert op verboden karakters/code
 		
-		CreateForumPost($dbh, $title, $text, $user, $cat, $time);
-		$errMsg = '<h2 style="color: green">Post succesvol opgeslagen</h2>';
+		$reply = CreateForumPost($dbh, $title, $text, $user, $cat, $time);
+		$errMsg = $reply;
+		$_POST = array();
+		header('Location: ./'.$cat.'.php');
 	}
 ?>
 <!DOCTYPE html>

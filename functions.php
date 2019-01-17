@@ -29,7 +29,7 @@ function CheckLogin($dbh, $user, $passwd) {
 }
 
 function GetAllForumPosts($dbh, $category) {
-	$stmt = $dbh->prepare("SELECT * FROM posts WHERE rubriek = :cat");
+	$stmt = $dbh->prepare("SELECT * FROM posts WHERE rubriek = :cat ORDER BY unixtijd DESC");
 	$stmt->execute([':cat'=>$category]);
 	$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	
@@ -133,6 +133,7 @@ function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
 	} catch(PDOException $e) {
 		$Ret = "<h2>Er ging iets mis. Probeer het later opnieuw</h2>";
 	}
+	return $Ret;
 }
 
 function GetVideos($dbh, $cat) {

@@ -17,9 +17,11 @@ $postReplies = GetPostReplies($dbh, $id);
 if(isset($_POST['opslaan'])) {
 	$text = isset($_POST['reply']) ? $_POST['reply'] : '';
 	$text = nl2br(htmlentities($text));
-	SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
+	$reply = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
 	$postReplies = GetPostReplies($dbh, $id);
-	$userErr = '<h4 style="color: green">Reactie opgeslagen</h4>';
+	$userErr = $reply;
+	$_POST = array();
+	$postReplies = GetPostReplies($dbh, $id);
 }
 
 ?>
