@@ -14,7 +14,7 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 	if(isset($_POST['send'])) {
 		$title = isset($_POST['title']) ? $_POST['title'] : '';
 		$text = isset($_POST['postText']) ? $_POST['postText'] : '';
-		$text = nl2br($text);
+		$text = nl2br(htmlentities($text));
 		$user = $_SESSION['LoginName'];
 		$time = time();
 		//hier een functie die filtert op verboden karakters/code

@@ -4,6 +4,15 @@ function CheckSession() {
 		session_start();
 	}
 }
+//bezoeker gerelateerde functies
+function RegisterUser($dbh, $user, $passwd, $fname $lname) {
+    $parameters = array(':Name'=>$fname. ' ' . $lname,
+        ':Username'=>$user,
+        ':Password'=>$passwd);
+
+    $sth = $dbh->prepare('INSERT INTO bezoekers(login, naam, wachtwoord) VALUES (:Username, :Name, :Password)');
+    $sth->execute($parameters);
+}
 
 function CheckLogin($dbh, $user, $passwd) {
 	$stmt = $dbh->prepare("SELECT * FROM bezoekers WHERE login = :username");
@@ -57,6 +66,20 @@ function GetPostReplies($dbh, $postID) {
 	return $data;
 }
 
+function SavePostReply($dbh, $postID, $text, $user, $time) {
+	try {
+		$stmt = $dbh->prepare("INSERT INTO posts_replies (post_id, tekst, bezoeker, unixtijd) VALUES (:pid, :text, :user, :time)");
+		$stmt->execute([
+				':pid'=>$postID,
+				':text'=>$text,
+				':user'=>$user,
+				':time'=>$time
+			]);
+	} catch(PDOException $e) {
+		var_dump($e);
+	}
+}
+
 function is_minlength($Invoer, $MinLengte)
 {
     return (strlen($Invoer) >= (int)$MinLengte);
@@ -86,6 +109,12 @@ function CreateForumAccessToken($cat, $user, $salt) {
 	$StageThreeKey = hash('crc32b', $StageTwoKey.$salt);
 	$key = $StageThreeKey;
 	return $key;
+}
+
+function HashPassword($passwd, $user) {
+	$StageOneKey = hash('ripemd160', $passwd);
+	$StageTwoKey = hash('sha512', $StageOneKey.$username);
+	return $StageTwoKey;
 }
 
 function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {

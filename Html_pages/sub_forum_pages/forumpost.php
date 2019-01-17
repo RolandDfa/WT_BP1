@@ -1,16 +1,25 @@
 <?php
 require("../../functions.php");
 require('../../dbConnection.php');
-
-$id = isset($_GET['id']) ? $_GET['id'] : '';
-
-$postData = GetForumPost($dbh, $id);
-$postReplies = GetPostReplies($dbh, $id);
 CheckSession();
+$id = isset($_GET['id']) ? $_GET['id'] : '';
+$postData = GetForumPost($dbh, $id);
+
+$userErr = "";
+
+if(empty($postData['rubriek'])) {
+	header('Location: ../../');
+	exit;
+}
+$postReplies = GetPostReplies($dbh, $id);
+
 
 if(isset($_POST['opslaan'])) {
-	$text = isset($_POST['text']) ? $_POST['text'] : '';
-	$text = strip_tags($text);
+	$text = isset($_POST['reply']) ? $_POST['reply'] : '';
+	$text = nl2br(htmlentities($text));
+	SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
+	$postReplies = GetPostReplies($dbh, $id);
+	$userErr = '<h4 style="color: green">Reactie opgeslagen</h4>';
 }
 
 ?>
@@ -28,6 +37,7 @@ if(isset($_POST['opslaan'])) {
 <div class="forum-content">
     <div class="content-block">
         <div class="forum-block forum-topic-title">
+			<?php echo $userErr;?>
 			<div class="forum-block-inner-top">
 				<h2><?php echo $postData['kopje'];?></h2>
 				<div class="forumpost-meta">
@@ -46,7 +56,7 @@ if(isset($_POST['opslaan'])) {
             <div class="forum-block-inner">
                 <h4 class="topic-user"><?php echo $reply['bezoeker'];?></h4>
                 <hr />
-                <p><?php echo $reply['tekst'].' - '.gmdate("Y-m-d\ H:i:s", $reply['unixtijd']);?></p>
+                <p><?php echo $reply['tekst'].'</p><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $reply['unixtijd']);?></p>
 				<br>
             </div>
         </div>

@@ -10,9 +10,11 @@ if(isset($_POST['registerbtn']))
     $CheckOnErrors = false;
     $FirstName = $_POST["firstname"];
     $LastName = $_POST["lastname"];
-    $username = $_POST["username"];
+    $Username = $_POST["username"];
     $Password = $_POST["psw"];
     $RetypePassword = $_POST["psw-repeat"];
+	
+	$_POST['psw'] = $_POST['psw-repeat'] = NULL;
 
 //controleer het voornaam veld
     if(empty($FirstName))
@@ -35,31 +37,23 @@ if(isset($_POST['registerbtn']))
         $LnameErr = "Mag alleen uit karakters bestaan en is minimaal 2 karakters lang";
         $CheckOnErrors = true;
     }
-    if(empty($username))
+    if(empty($Username))
     {
         $UserErr = "Username veld is vereist";
         $CheckOnErrors = true;
     }
-    elseif(!is_Char_Only($username) || !is_minlength($username, 2))
+    elseif(!is_Char_Only($Username) || !is_minlength($Username, 2))
     {
         $UserErr = "Mag alleen uit karakters bestaan en is minimaal 2 karakters lang";
         $CheckOnErrors = true;
     }
-    elseif(!is_Username_Unique($username, $dbh))
+    elseif(!is_Username_Unique($Username, $dbh))
     {
         $UserErr = "deze Username bestaat al, kies een andere";
         $CheckOnErrors = true;
     }
-    $Password = hash('sha384', $Password);
-    $parameters = array(':Name'=>$FirstName. ' ' . $LastName,
-        ':Username'=>$username,
-        ':Password'=>$Password);
-
-
-    $sth = $dbh->prepare('INSERT INTO bezoekers(login, naam, wachtwoord) VALUES
-(:Username, :Name, :Password)');
-
-    $sth->execute($parameters);
+	$Password = HashPassword($Password, $Username);
+	RegisterUser($dbh, $Username, $Password, $FirstName, $LastName);
 
     echo "U heeft zich succesvol geregistreerd.";
 }
