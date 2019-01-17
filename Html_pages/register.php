@@ -3,7 +3,7 @@ require_once ('../functions.php');
 require_once ('../dbConnection.php');
 
 CheckSession();
-$FirstName = $LastName = $Username = $Password = $RetypePassword = NULL;
+$FirstName = $LastName = $Username = $Password = $RetypePassword = $GeneralErr = $Success = "";
 
 $FnameErr = $LnameErr = $UserErr = $PassErr = $RePassErr = NULL;
 $CheckOnErrors = true;
@@ -17,6 +17,16 @@ if(isset($_POST['registerbtn']))
     $RetypePassword = $_POST["psw-repeat"];
 	
 	$_POST['psw'] = $_POST['psw-repeat'] = NULL;
+	
+	$UniqueName = is_Username_Unique($Username, $dbh);
+	if($UniqueName['PDORetCode'] == 0) {
+		$CheckOnErrors = true;
+		$GeneralErr = "Er trad een onbekende fout op. Probeer het later opnieuw.";
+		$UniqueName = false;
+	} else {
+		$UniqueName = $UniqueName['unused'];
+	}
+		
 
 //controleer het voornaam veld
     if(empty($FirstName))
@@ -49,8 +59,9 @@ if(isset($_POST['registerbtn']))
         $UserErr = "Mag alleen uit karakters bestaan en is minimaal 2 karakters lang";
         $CheckOnErrors = true;
     }
-    elseif(!is_Username_Unique($Username, $dbh))
+    elseif(!$UniqueName)
     {
+		
         $UserErr = "deze Username bestaat al, kies een andere";
         $CheckOnErrors = true;
     }
@@ -73,7 +84,13 @@ if(isset($_POST['registerbtn']))
     }
     if($CheckOnErrors == false)
     {
-	$Password = HashPassword($Password, $Username);
+		$Password = HashPassword($Password, $Username);
+		$UserSaved = RegisterUser($dbh, $Username, $Password, $FirstName, $LastName);
+		if($UserSaved == 1) {
+			$Success = 'Je account is succesvol aangemaakt. Klik op "login" om in te loggen';
+		} else {
+			$GeneralErr = "Er trad een onbekende fout op. Probeer het later opnieuw.";
+		}
 
     }
 }
@@ -101,17 +118,19 @@ if(isset($_POST['registerbtn']))
             <div class="block">
                 <h1>Registreren</h1>
                 <p>Vul dit formulier in om een account aan te maken</p>
+				<span style="color:red"><?php echo $GeneralErr; ?></span>
+				<span style="color:green"><?php echo $Success; ?></span>
             </div>
             <div class="block round-edge">
                 <div class="register">
-                    <form method="POST" action="#">
+                    <form method="POST" action="./register.php">
 
                         <div class="container">
 
                             <span style="color:red"><?php echo $UserErr; ?></span>
                             <p><b>Gebruikersnaam</b></p>
                             <input type="text" placeholder="Voer gebruikersnaam in" name="username" required><br/>
-                            <span style="color:red"><?php echo $Password; ?></span>
+                            <span style="color:red"><?php echo $PassErr; ?></span>
                            <p><b>Wachtwoord</b></p>
                             <input type="password" placeholder="Voer wachtwoord in" name="psw" required><br/>
                             <span style="color:red"><?php echo $RePassErr; ?></span>

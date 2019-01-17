@@ -40,14 +40,14 @@ function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
         ':Username'=>$user,
         ':Password'=>$passwd);
 	$query = 'INSERT INTO bezoekers(login, naam, wachtwoord) VALUES (:Username, :Name, :Password)';
-	$Ret = "Er ging iets fout. Probeer het later opnieuw.";
+	$Ret = 0;
 	
 	try {
 		$stmt = $dbh->prepare($query);
 		$stmt->execute($prm);
-		$Ret = 'Opslaan gelukt';
+		$Ret = 1;
 	} catch(PDOException $e) {
-		$Ret = "Er ging iets fout. Probeer het later opnieuw.";
+		$Ret = 0;
 	}
 	return $Ret;
 }
@@ -57,14 +57,14 @@ function CheckLogin($dbh, $user, $passwd) {
 	try {
 		$stmt = $dbh->prepare("SELECT * FROM bezoekers WHERE login = :username");
 		$prm = ([':username'=>$user]);
-		$stmt->execute($param);
-		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		if($data['wachtwoord'] == $passwd) {
-			$LoginData['code'] = 1;
-			$LoginData['name'] = $data['naam'];
-		}
+		$stmt->execute($prm);
+		$data = $stmt->fetch(PDO::FETCH_ASSOC);
 	} catch(PDOException $e) {
 		$LoginData['code'] = 0;
+	}
+	if($data['wachtwoord'] == $passwd) {
+			$LoginData['code'] = 1;
+			$LoginData['name'] = $data['naam'];
 	}
 	return $LoginData;
 }
@@ -94,7 +94,6 @@ function CreateForumOverview($posts) {
 		$Ret = $Ret.'<td class="topic-date">'.gmdate("Y-m-d\ H:i:s", $post['unixtijd']).'</td>';
 		$Ret = $Ret.'</tr>';
 	}
-	
 	return $Ret;
 }
 
@@ -118,7 +117,9 @@ function GetPostReplies($dbh, $postID) {
 	try {
 		$Query = "SELECT * FROM posts_replies WHERE post_id = :pid ORDER BY unixtijd asc";
 		$param = [':pid'=>$postID];
+		
 		$stmt = $dbh->prepare($Query);
+		$stmt->execute($param);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$Ret = array('PDORetCode'=>1, 'data'=>$data);
 	} catch(PDOException $e) {
@@ -137,10 +138,11 @@ function SavePostReply($dbh, $postID, $text, $user, $time) {
 				':user'=>$user,
 				':time'=>$time
 			]);
-		$Ret = "<h2>Reactie succesvol opgeslagen!</h2>";
+		$Ret = '<h2 style="color: green">Reactie succesvol opgeslagen!</h2>';
 	} catch(PDOException $e) {
-		$Ret = "<h2>Er ging iets mis. Probeer het later opnieuw</h2>";
+		$Ret = '<h2 style="color: red">Er ging iets mis. Probeer het later opnieuw</h2>';
 	}
+	return $Ret;
 }
 
 function is_minlength($invoer, $minLengte)
@@ -153,18 +155,22 @@ function is_Char_Only($invoer)
 }
 function is_Username_Unique($invoer, $dbh)
 {
-	
-    $stmt = $dbh->prepare('SELECT COUNT(login) FROM bezoekers WHERE login = :login');
-	$prm = array(':login'=>$invoer);
-    $stmt->execute($prm);
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // controleren of de username voorkomt in de DB
-    if ($data['COUNT(login)'] > 0)
-        return false;//username komt voor
-    else
-        return true;//username komt niet voor
-	
+	$Ret = array('PDORetCode'=>0);
+	try	{
+		$stmt = $dbh->prepare('SELECT COUNT(login) FROM bezoekers WHERE login = :login');
+		$prm = array(':login'=>$invoer);
+		$stmt->execute($prm);
+		$data = $stmt->fetch(PDO::FETCH_NUM);
+		$Ret = array('PDORetCode'=>1);
+		if ($data[0] > 0) {
+			$Ret['unused'] = false;
+		} else {
+			$Ret['unused'] = true;
+		}
+	} catch(PDOException $e) {
+		$Ret = array('PDORetCode'=>0);
+	}
+	return $Ret;
 }
 
 function CreateForumAccessToken($cat, $user, $salt) {
@@ -201,18 +207,18 @@ function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
 
 function GetRecentPost($dbh)
 {
-    $Ret = "";
+    $Ret = array('PDORetCode'=>0);
     try
     {
         $stmt = $dbh->prepare("SELECT top 3  * from posts ORDER BY unixtijd desc");
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+		$Ret = array('PDORetCode'=>1, 'data'=>$data);
     }
     catch(PDOException $e) {
-        $Ret = "<h2>Er ging iets mis. Probeer het later opnieuw</h2>";
+        $Ret = array('PDORetCode'=>0);
     }
-    return $data;
+    return $Ret;
 
 }
 

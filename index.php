@@ -1,6 +1,16 @@
 ﻿<?php
-require('dbConnection.php');
-require('functions.php');
+require_once('dbConnection.php');
+require_once('functions.php');
+$posts = GetRecentPost($dbh);
+
+$continue = false;
+$GeneralErr = "";
+if($posts['PDORetCode'] == 1) {
+	$posts = $posts['data'];
+	$continue = true;
+} else {
+	$userErr = '<h2 style="color:red">Er ging iets fout bij het ophalen van recente forum posts. Sorry voor het ongemak.</h2>';
+}
 
 CheckSession();
 ?>
@@ -17,21 +27,17 @@ CheckSession();
     <title>Home</title>
 </head>
     <body>
-    <?php require('header.php');?>
+    <?php require_once('header.php');?>
     <div class="content">
         <div class="content-block">
-            <?php if(isset($_SESSION['loggedIn'])) {
-                $cat = "algemeen";
-                $salt = $_SESSION['TOKENSALT'] = time();
-                $key = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
-                ?>
-
-            <?php } ?>
             <div class="block">
                 <h2>Welkom op onze site!</h2>
                 <p>Welkom op de website van Füssball inside Nijmegen!<br /><br />
                     Op deze site vind je verschillende video's over bijvoorbeeld tactieken en spelregels, maar ook leuke bloopers!<br /><br />
                     Ook hebben we een community forum. Momenteel hebben we drie categorieën:</p>
+				<?php
+				echo $GeneralErr; 
+				if($continue) {?>
                 <table>
                     <thead>
                     <tr class="table-header">
@@ -44,7 +50,7 @@ CheckSession();
                     <tbody>
 
                     <?php
-                     $posts = GetRecentPost($dbh);
+                     
                     // var_dump($posts);
                     foreach ($posts as $post)
                     {?>
@@ -59,7 +65,9 @@ CheckSession();
                     ?>
                     </tbody>
                 </table>
-            <?php require("footer.php"); ?>
+				<?php 
+				} 
+				require_once("footer.php"); ?>
         </div>
     </div>
 

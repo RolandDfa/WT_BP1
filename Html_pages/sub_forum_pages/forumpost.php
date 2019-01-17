@@ -6,10 +6,10 @@ CheckSession();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $postData = GetForumPost($dbh, $id);
 if($postData['PDORetCode'] == 1) {
-		$postData = $postData['data'];
-	} else {
-		$userErr = "<h2>Er ging iets fout</h2>";
-	}
+	$postData = $postData['data'];
+} else {
+	$userErr = "<h2>Er ging iets fout</h2>";
+}
 
 
 
@@ -17,15 +17,16 @@ if($postData['PDORetCode'] == 1) {
 
 if(isset($_POST['opslaan'])) {
 	$text = isset($_POST['reply']) ? $_POST['reply'] : '';
-	$text = nl2br(htmlentities($text));
-	$reply = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
+	$text = nl2br(urlencode(htmlentities($text)));
+	$userErr = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
+	var_dump($userErr);
 	$postReplies = GetPostReplies($dbh, $id);
+	
 	if($postReplies['PDORetCode'] == 1) {
 		$postReplies = $postReplies['data'];
 	} else {
-		$userErr = "<h2>Er ging iets fout</h2>";
+		$userErr = $userErr."<h2>Er ging iets fout met het ophalen van reacties</h2>";
 	}
-	$userErr = $reply;
 	$_POST = array();
 	$postReplies = GetPostReplies($dbh, $id);
 }
@@ -33,8 +34,9 @@ $postReplies = GetPostReplies($dbh, $id);
 if($postReplies['PDORetCode'] == 1) {
 	$postReplies = $postReplies['data'];
 } else {
-	$userErr = "<h2>Er ging iets fout</h2>";
+	$userErr = $userErr."<h2>Er ging iets fout met het ophalen van reacties</h2>";
 }
+
 
 ?>
 
@@ -70,7 +72,7 @@ if($postReplies['PDORetCode'] == 1) {
             <div class="forum-block-inner">
                 <h4 class="topic-user"><?php echo $reply['bezoeker'];?></h4>
                 <hr />
-                <p><?php echo $reply['tekst'].'</p><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $reply['unixtijd']);?></p>
+                <p><?php echo urldecode($reply['tekst']).'</p><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $reply['unixtijd']);?></p>
 				<br>
             </div>
         </div>
@@ -82,7 +84,7 @@ if($postReplies['PDORetCode'] == 1) {
 			<div class="forum-block round-edge">
 				<div class="forum-block-inner">
 					<h4>Laat een reactie achter:</h4>
-					<form method="POST" action="#">
+					<form method="POST" action="./forumpost.php?id=<?php echo $id;?>">
 						<textarea rows=5 style="width: 100%;" class="reply-field" name="reply" placeholder="Typ hier je reactie..."></textarea>
 						<br>
 						<input type="submit" name="opslaan" value="verstuur reactie" onclick="" />
