@@ -1,6 +1,6 @@
 <?php
-require("../../functions.php");
-require('../../dbConnection.php');
+require_once("../../functions.php");
+require_once('../../dbConnection.php');
 
 CheckSession();
 ?>
@@ -13,7 +13,7 @@ CheckSession();
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-<?php require('../../header.php');?>
+<?php require_once('../../header.php');?>
 <div class="content">
     <div class="content-block">
 		<?php if(isset($_SESSION['loggedIn'])) { 
@@ -43,7 +43,7 @@ CheckSession();
                 </tbody>
             </table>
         </div>
-        <?php require("../../footer.php"); ?>
+        <?php require_once("../../footer.php"); ?>
     </div>
 </div>
 </body>

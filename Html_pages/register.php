@@ -1,6 +1,6 @@
 <?php
-require ('../functions.php');
-require ('../dbConnection.php');
+require_once ('../functions.php');
+require_once ('../dbConnection.php');
 
 CheckSession();
 $UserErr = "";
@@ -125,19 +125,19 @@ if(isset($_POST['registerbtn']))
                         <span style="color:red"><?php echo $UserErr;?></span>
                         <div class="container">
                             <p><b>Gebruikersnaam</b></p>
-                            <input type="text" placeholder="Voer gebruikersnaam in" name="username" required><br/>
+                            <input type="text" placeholder="Voer gebruikersnaam in" name="username" require_onced><br/>
 
                            <p><b>Wachtwoord</b></p>
-                            <input type="password" placeholder="Voer wachtwoord in" name="psw" required><br/>
+                            <input type="password" placeholder="Voer wachtwoord in" name="psw" require_onced><br/>
 
                             <p><b>Herhaal wachtwoord</b></p>
-                            <input type="password" placeholder="Herhaal wachtwoord" name="psw-repeat" required>
+                            <input type="password" placeholder="Herhaal wachtwoord" name="psw-repeat" require_onced>
                             <hr>
                             <p><b>Voornaam</b></p>
-                            <input type="text" placeholder="Voornaam" name="firstname" required>
+                            <input type="text" placeholder="Voornaam" name="firstname" require_onced>
                             <hr>
                             <p><b>Achternaam</b></p>
-                            <input type="text" placeholder="Achternaam" name="lastname" required>
+                            <input type="text" placeholder="Achternaam" name="lastname" require_onced>
                             <hr>
                             <p>Met het aanmaken van een account, gaat u akkoord met onze voorwaarden <a href="#">Terms & Privacy</a>.</p>
 

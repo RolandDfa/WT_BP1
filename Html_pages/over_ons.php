@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<?php require("../functions.php");
-require('../dbConnection.php');
+<?php require_once("../functions.php");
+require_once('../dbConnection.php');
 CheckSession();
 ?>
 <html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
@@ -10,7 +10,7 @@ CheckSession();
     <title>Over ons</title>
 </head>
 <body>
-<?php require('../header.php'); ?>
+<?php require_once('../header.php'); ?>
 <div class="content">
     <div class="content-block">
         <div class="block">

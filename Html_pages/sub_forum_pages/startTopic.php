@@ -1,6 +1,6 @@
 <?php
-require('../../functions.php');
-require('../../dbConnection.php');
+require_once('../../functions.php');
+require_once('../../dbConnection.php');
 checkSession();
 if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['token'] != '') {
 	$cat = $_GET['cat'];
@@ -32,7 +32,7 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-<?php require("../../header.php");?>
+<?php require_once("../../header.php");?>
 <div class="forum-content">
     <div class="content-block">
 		<form method="POST" action="">

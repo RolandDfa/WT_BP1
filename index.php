@@ -1,6 +1,6 @@
 ﻿<?php
-require('dbConnection.php');
-require('functions.php');
+require_once('dbConnection.php');
+require_once('functions.php');
 
 CheckSession();
 ?>
@@ -18,7 +18,7 @@ CheckSession();
 </head>
     <body>
         <!-- all the content on the top of the page -->
-        <?php require('header.php'); ?>
+        <?php require_once('header.php'); ?>
         <!-- block containing the main content of the page -->
         <div class="content">
             <div class="content-block">
@@ -34,7 +34,7 @@ CheckSession();
                         <li>Onzin - Hier kunnen alle zaken besproken worden die niet aan voetbal gerelateerd zijn</li>
                     </ul>
                 </div>
-				<?php require("footer.php"); ?>
+				<?php require_once("footer.php"); ?>
             </div>
         </div>
     </body>	

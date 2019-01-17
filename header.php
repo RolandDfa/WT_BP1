@@ -40,7 +40,9 @@
 		<?php } ?>
 	    <div class="menu-item menu-right">
 	        <form action="#">
+				
 				<?php if(isset($_SESSION['name'])) { echo '<span style="color:white">'.$_SESSION['name']."</span>";} ?>
+				
 				<input type="text" placeholder="Zoeken..." name="Zoeken">
 				<button type="submit"><i class="fa fa-search"></i></button>
 	        </form>

@@ -6,27 +6,26 @@ function CheckSession() {
 }
 //bezoeker gerelateerde functies
 function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
-    $parameters = array(':Name'=>$fname. ' ' . $lname,
+    $prm = array(':Name'=>$fname. ' ' . $lname,
         ':Username'=>$user,
         ':Password'=>$passwd);
 
-    $sth = $dbh->prepare('INSERT INTO bezoekers(login, naam, wachtwoord) VALUES (:Username, :Name, :Password)');
-    $sth->execute($parameters);
+    $stmt = $dbh->prepare('INSERT INTO bezoekers(login, naam, wachtwoord) VALUES (:Username, :Name, :Password)');
+    $stmt->execute($prm);
 }
 
 function CheckLogin($dbh, $user, $passwd) {
-	$query = "SELECT * FROM bezoekers WHERE login = :username";
-	$stmt = $dbh->prepare($query);
-	$params = ([':username'=>$user]);
-	$stmt->execute($params);
+	$stmt = $dbh->prepare("SELECT * FROM bezoekers WHERE login = :username");
+	$prm = ([':username'=>$user]);
+	$stmt->execute($prm);
 	$data = $stmt->fetch(PDO::FETCH_ASSOC);
 	
-	$loginData['code'] = 0;
+	$LoginData['code'] = 0;
 	if($data['wachtwoord'] == $passwd) {
-		$loginData['code'] = 1;
-		$loginData['name'] = $data['naam'];
+		$LoginData['code'] = 1;
+		$LoginData['name'] = $data['naam'];
 	}	
-	return $loginData;
+	return $LoginData;
 }
 
 function GetAllForumPosts($dbh, $category) {
@@ -39,16 +38,16 @@ function GetAllForumPosts($dbh, $category) {
 
 //haal alle titels op van forum posts en maak er een tabel van
 function CreateForumOverview($posts) {
-	$ret = "";
+	$Ret = "";
 	foreach($posts as $post) {
-		$ret = $ret.'<tr class="forum-even">';
-		$ret = $ret.'<td class="topic-title"><a href="./forumpost.php?id='.$post['id'].'">'.$post['kopje'].'</a></td>';
-		$ret = $ret.'<td class="topic-user">'.$post['bezoeker'].'</td>';
-		$ret = $ret.'<td class="topic-date">'.gmdate("Y-m-d\ H:i:s", $post['unixtijd']).'</td>';
-		$ret = $ret.'</tr>';
+		$Ret = $Ret.'<tr class="forum-even">';
+		$Ret = $Ret.'<td class="topic-title"><a href="./forumpost.php?id='.$post['id'].'">'.$post['kopje'].'</a></td>';
+		$Ret = $Ret.'<td class="topic-user">'.$post['bezoeker'].'</td>';
+		$Ret = $Ret.'<td class="topic-date">'.gmdate("Y-m-d\ H:i:s", $post['unixtijd']).'</td>';
+		$Ret = $Ret.'</tr>';
 	}
 	
-	return $ret;
+	return $Ret;
 }
 
 function GetForumPost($dbh, $id) {
@@ -68,6 +67,7 @@ function GetPostReplies($dbh, $postID) {
 }
 
 function SavePostReply($dbh, $postID, $text, $user, $time) {
+	$Ret = "";
 	try {
 		$stmt = $dbh->prepare("INSERT INTO posts_replies (post_id, tekst, bezoeker, unixtijd) VALUES (:pid, :text, :user, :time)");
 		$stmt->execute([
@@ -76,26 +76,26 @@ function SavePostReply($dbh, $postID, $text, $user, $time) {
 				':user'=>$user,
 				':time'=>$time
 			]);
+		$Ret = "<h2>Reactie succesvol opgeslagen!</h2>";
 	} catch(PDOException $e) {
-		var_dump($e);
+		$Ret = "<h2>Er ging iets mis. Probeer het later opnieuw</h2>";
 	}
 }
 
-function is_minlength($Invoer, $MinLengte)
+function is_minlength($invoer, $minLengte)
 {
-    return (strlen($Invoer) >= (int)$MinLengte);
+    return (strlen($invoer) >= (int)$minLengte);
 }
-function is_Char_Only($Invoer)
+function is_Char_Only($invoer)
 {
-    return (bool)(preg_match("/^[a-zA-Z ]*$/", $Invoer)) ;
+    return (bool)(preg_match("/^[a-zA-Z ]*$/", $invoer)) ;
 }
-function is_Username_Unique($Invoer,$pdo)
+function is_Username_Unique($invoer, $dbh)
 {
-    $parameters = array(':login'=>$Invoer);
-    $sth = $pdo->prepare('SELECT COUNT(login) FROM bezoekers WHERE login = :login');
-
-    $sth->execute($parameters);
-    $data = $sth->fetch(PDO::FETCH_NUM);
+    $stmt = $dbh->prepare('SELECT COUNT(login) FROM bezoekers WHERE login = :login');
+	$prm = array(':login'=>$invoer);
+    $stmt->execute($prm);
+    $data = $stmt->fetch(PDO::FETCH_NUM);
 
     // controleren of de username voorkomt in de DB
     if ($data[0] > 0)
@@ -108,8 +108,8 @@ function CreateForumAccessToken($cat, $user, $salt) {
 	$StageOneKey = hash('ripemd160', $user);
 	$StageTwoKey = hash('sha256', $StageOneKey.$cat);
 	$StageThreeKey = hash('crc32b', $StageTwoKey.$salt);
-	$key = $StageThreeKey;
-	return $key;
+	$Key = $StageThreeKey;
+	return $Key;
 }
 
 function HashPassword($passwd, $user) {
@@ -119,14 +119,20 @@ function HashPassword($passwd, $user) {
 }
 
 function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
-	$stmt = $dbh->prepare("INSERT INTO posts (kopje, tekst, bezoeker, rubriek, unixtijd) VALUES (:title, :text, :user, :cat, :time)");
-	$stmt->execute([
-			':title'=>$title,
-			':text'=>$text,
-			':user'=>$user,
-			':cat'=>$cat,
-			':time'=>$time
-		]);
+	$Ret = "";
+	try {
+		$stmt = $dbh->prepare("INSERT INTO posts (kopje, tekst, bezoeker, rubriek, unixtijd) VALUES (:title, :text, :user, :cat, :time)");
+		$stmt->execute([
+				':title'=>$title,
+				':text'=>$text,
+				':user'=>$user,
+				':cat'=>$cat,
+				':time'=>$time
+			]);
+		$Ret = "<h2>Post succesvol opgeslagen!</h2>";
+	} catch(PDOException $e) {
+		$Ret = "<h2>Er ging iets mis. Probeer het later opnieuw</h2>";
+	}
 }
 
 function GetVideos($dbh, $cat) {

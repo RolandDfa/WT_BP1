@@ -1,6 +1,6 @@
 <?php
-require('../dbConnection.php');
-require('../functions.php');
+require_once('../dbConnection.php');
+require_once('../functions.php');
 CheckSession();
 if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
 header('Location: ../');

@@ -1,6 +1,6 @@
 <?php
-require("../../functions.php");
-require('../../dbConnection.php');
+require_once("../../functions.php");
+require_once('../../dbConnection.php');
 CheckSession();
 ?>
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ CheckSession();
     <title>Video's Bloopers</title>
 </head>
 <body>
-<?php require("../../header.php"); 
+<?php require_once("../../header.php"); 
 $Videos = GetVideos($dbh, "bloopers");
 ?>
 <div class="forum-content">
@@ -34,7 +34,7 @@ $Videos = GetVideos($dbh, "bloopers");
             </div>
         </div>
 		<?php } 
-		require("../../footer.php"); ?>
+		require_once("../../footer.php"); ?>
 	</div>
 </div>
 </body>

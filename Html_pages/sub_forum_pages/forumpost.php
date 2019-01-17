@@ -1,6 +1,6 @@
 <?php
-require("../../functions.php");
-require('../../dbConnection.php');
+require_once("../../functions.php");
+require_once('../../dbConnection.php');
 CheckSession();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $postData = GetForumPost($dbh, $id);
@@ -33,7 +33,7 @@ if(isset($_POST['opslaan'])) {
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-<?php require("../../header.php");?>
+<?php require_once("../../header.php");?>
 <div class="forum-content">
     <div class="content-block">
         <div class="forum-block forum-topic-title">
@@ -78,7 +78,7 @@ if(isset($_POST['opslaan'])) {
 		</div>
 		<?php
 		}
-		require("../../footer.php");
+		require_once("../../footer.php");
 		?>
     </div>
 </div>
