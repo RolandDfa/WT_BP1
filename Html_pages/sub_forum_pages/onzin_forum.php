@@ -1,6 +1,17 @@
 <?php
 require_once("../../functions.php");
 require_once('../../dbConnection.php');
+$posts = GetAllForumPosts($dbh, "onzin");
+$continue = false;
+$errMsg = "";
+if($posts["PDORetCode"] == 1) {
+	$posts = $posts['data'];
+	$continue = true;
+} else {
+	$continue = false;
+	$errMsg = "<h2>Er ging iets fout. Probeer het later opnieuw.</h2>";
+}
+
 
 CheckSession();
 ?>
@@ -9,14 +20,16 @@ CheckSession();
 <html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Onzin Forum</title>
+    <title>onzin Forum</title>
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
 <?php require_once('../../header.php');?>
 <div class="content">
     <div class="content-block">
-		<?php if(isset($_SESSION['loggedIn'])) { 
+		<?php 
+		echo $errMsg;
+		if(isset($_SESSION['loggedIn'])) { 
 			$cat = "onzin";
 			$salt = $_SESSION['TOKENSALT'] = time();
 			$key = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
@@ -37,8 +50,9 @@ CheckSession();
                 </thead>
                 <tbody>
 				<?php
-				$posts = GetAllForumPosts($dbh, "onzin");
-				echo CreateForumOverview($posts);
+				if($continue) {
+					echo CreateForumOverview($posts);
+				}
 				?>
                 </tbody>
             </table>

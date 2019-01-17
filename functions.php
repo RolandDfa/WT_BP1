@@ -4,40 +4,84 @@ function CheckSession() {
 		session_start();
 	}
 }
-function ExecQuery($dbh, $q, $fetch) {
+function ExecQueryParam($dbh, $q, $fetch, $param) {
+	$Ret = array('PDORetCode'=>0);
 	try {
-		$stmt = $
+		$stmt = $dbh->prepare($q);
+		$stmt->execute($param);
+		if($fetch == "all") {
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+			$data = $stmt->fetch($PDO::FETCH_ASSOC);
+		}
+		$Ret = array('PDORetCode'=>1, $data);
+	} catch(PDOException $e) {
+		$Ret = array('PDORetCode'=>0);
+	}
+	return $Ret;
+}	
+
+function ExecQuery($dbh, $q, $param) {
+	$Ret = "Er ging iets fout. Probeer het later opnieuw.";
+	try {
+		$stmt = $dbh->prepare($q);
+		$stmt->execute($param);
+		$Ret = 'Opslaan gelukt';
+	} catch(PDOException $e) {
+		$Ret = "Er ging iets fout. Probeer het later opnieuw.";
+	}
+	return $Ret;
+}	
+		
 
 //bezoeker gerelateerde functies
 function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
     $prm = array(':Name'=>$fname. ' ' . $lname,
         ':Username'=>$user,
         ':Password'=>$passwd);
-
-    $stmt = $dbh->prepare('INSERT INTO bezoekers(login, naam, wachtwoord) VALUES (:Username, :Name, :Password)');
-    $stmt->execute($prm);
+	$query = 'INSERT INTO bezoekers(login, naam, wachtwoord) VALUES (:Username, :Name, :Password)';
+	$Ret = "Er ging iets fout. Probeer het later opnieuw.";
+	
+	try {
+		$stmt = $dbh->prepare($query);
+		$stmt->execute($prm);
+		$Ret = 'Opslaan gelukt';
+	} catch(PDOException $e) {
+		$Ret = "Er ging iets fout. Probeer het later opnieuw.";
+	}
+	return $Ret;
 }
 
 function CheckLogin($dbh, $user, $passwd) {
-	$stmt = $dbh->prepare("SELECT * FROM bezoekers WHERE login = :username");
-	$prm = ([':username'=>$user]);
-	$stmt->execute($prm);
-	$data = $stmt->fetch(PDO::FETCH_ASSOC);
-	
 	$LoginData['code'] = 0;
-	if($data['wachtwoord'] == $passwd) {
-		$LoginData['code'] = 1;
-		$LoginData['name'] = $data['naam'];
-	}	
+	try {
+		$stmt = $dbh->prepare("SELECT * FROM bezoekers WHERE login = :username");
+		$prm = ([':username'=>$user]);
+		$stmt->execute($param);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		if($data['wachtwoord'] == $passwd) {
+			$LoginData['code'] = 1;
+			$LoginData['name'] = $data['naam'];
+		}
+	} catch(PDOException $e) {
+		$LoginData['code'] = 0;
+	}
 	return $LoginData;
 }
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function GetAllForumPosts($dbh, $category) {
-	$stmt = $dbh->prepare("SELECT * FROM posts WHERE rubriek = :cat ORDER BY unixtijd DESC");
-	$stmt->execute([':cat'=>$category]);
-	$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	
-	return $data;
+	$Ret = array("PDORetCode"=>0);
+	try {
+		$stmt = $dbh->prepare("SELECT * FROM posts WHERE rubriek = :cat ORDER BY unixtijd DESC");
+		$param = [':cat'=>$category];
+		$stmt->execute($param);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$Ret = array('PDORetCode'=>1, 'data'=>$data);
+	} catch(PDOException $e) {
+		$Ret = array("PDORetCode"=>0);
+	}
+	return $Ret;
 }
 
 //haal alle titels op van forum posts en maak er een tabel van
@@ -55,19 +99,32 @@ function CreateForumOverview($posts) {
 }
 
 function GetForumPost($dbh, $id) {
-	$stmt = $dbh->prepare('SELECT * FROM posts WHERE id = :id');
-	$stmt->execute([':id'=>$id]);
-	$data = $stmt->fetch(PDO::FETCH_ASSOC);
-	
-	return $data;
+	$ret = array('PDORetCode'=>0);
+	try {
+		$Query = 'SELECT * FROM posts WHERE id = :id';
+		$param = [':id'=>$id];
+		$stmt = $dbh->prepare($Query);
+		$stmt->execute($param);
+		$data = $stmt->fetch(PDO::FETCH_ASSOC);
+		$Ret = array('PDORetCode'=>1, 'data'=>$data);
+	} catch(PDOException $e) {
+		$Ret = array('PDORetCode'=>0);
+	}
+	return $Ret;
 }
 
 function GetPostReplies($dbh, $postID) {
-	$stmt = $dbh->prepare("SELECT * FROM posts_replies WHERE post_id = :pid ORDER BY unixtijd asc");
-	$stmt->execute([':pid'=>$postID]);
-	$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	
-	return $data;
+	$Ret = array('PDORetCode'=>0);
+	try {
+		$Query = "SELECT * FROM posts_replies WHERE post_id = :pid ORDER BY unixtijd asc";
+		$param = [':pid'=>$postID];
+		$stmt = $dbh->prepare($Query);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$Ret = array('PDORetCode'=>1, 'data'=>$data);
+	} catch(PDOException $e) {
+		$Ret = array('PDORetCode'=>0);
+	}
+	return $Ret;
 }
 
 function SavePostReply($dbh, $postID, $text, $user, $time) {
@@ -96,16 +153,18 @@ function is_Char_Only($invoer)
 }
 function is_Username_Unique($invoer, $dbh)
 {
+	
     $stmt = $dbh->prepare('SELECT COUNT(login) FROM bezoekers WHERE login = :login');
 	$prm = array(':login'=>$invoer);
     $stmt->execute($prm);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // controleren of de username voorkomt in de DB
-    if ($data[0] > 0)
+    if ($data['COUNT(login)'] > 0)
         return false;//username komt voor
     else
         return true;//username komt niet voor
+	
 }
 
 function CreateForumAccessToken($cat, $user, $salt) {
@@ -158,14 +217,14 @@ function GetRecentPost($dbh)
 }
 
 function GetVideos($dbh, $cat) {
-	$Ret = array('RetCode'=>0);
+	$Ret = array('PDORetCode'=>0);
 	try {
 		$stmt = $dbh->prepare("SELECT * FROM videos WHERE rubriek = :cat");
 		$stmt->execute([':cat'=>$cat]);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		$Ret = array('RetCode'=>1, 'Data'=>$data);
+		$Ret = array('PDORetCode'=>1, 'data'=>$data);
 	} catch(PDOException $e) {
-		$Ret = array('RetCode'=>0);
+		$Ret = array('PDORetCode'=>0);
 	}
 	return $Ret;
 }
@@ -179,7 +238,7 @@ function SearchWebsite($dbh, $q) {
 		$stmt = $dbh->prepare("SELECT * FROM videos WHERE titel LIKE %:q% OR samenvatting LIKE %:q%");
 		$stmt->execute([':q'=>$q]);
 		$VideoData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		$Ret = array('RetCode'=>1, 'VideoData'=>$VideoData, 'ForumData'=>$ForumData
+		$Ret = array('RetCode'=>1, 'VideoData'=>$VideoData, 'ForumData'=>$ForumData);
 	} catch(PDOException $e) {
 		$Ret = array('RetCode'=>0);
 	}

@@ -1,17 +1,18 @@
 <?php
 require_once("../../functions.php");
 require_once('../../dbConnection.php');
+$userErr = "";
 CheckSession();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $postData = GetForumPost($dbh, $id);
+if($postData['PDORetCode'] == 1) {
+		$postData = $postData['data'];
+	} else {
+		$userErr = "<h2>Er ging iets fout</h2>";
+	}
 
-$userErr = "";
 
-if(empty($postData['rubriek'])) {
-	header('Location: ../../');
-	exit;
-}
-$postReplies = GetPostReplies($dbh, $id);
+
 
 
 if(isset($_POST['opslaan'])) {
@@ -19,9 +20,20 @@ if(isset($_POST['opslaan'])) {
 	$text = nl2br(htmlentities($text));
 	$reply = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
 	$postReplies = GetPostReplies($dbh, $id);
+	if($postReplies['PDORetCode'] == 1) {
+		$postReplies = $postReplies['data'];
+	} else {
+		$userErr = "<h2>Er ging iets fout</h2>";
+	}
 	$userErr = $reply;
 	$_POST = array();
 	$postReplies = GetPostReplies($dbh, $id);
+}
+$postReplies = GetPostReplies($dbh, $id);
+if($postReplies['PDORetCode'] == 1) {
+	$postReplies = $postReplies['data'];
+} else {
+	$userErr = "<h2>Er ging iets fout</h2>";
 }
 
 ?>

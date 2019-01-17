@@ -14,11 +14,21 @@ CheckSession();
 
 <?php require_once("../../header.php"); 
 $Videos = GetVideos($dbh, "tactiek");
+
+$continue = false;
+if($Videos['PDORetCode'] == 1) {
+	$Videos = $Videos['data'];
+	$continue = true;
+} else {
+	$userErr = "<h2>Er ging iets fout</h2>";
+}
 ?>
 <div class="forum-content">
     
     <div class="content-block">
-	<?php foreach($Videos as $Video) {?>
+	<?php 
+	if($continue) {
+		foreach($Videos as $Video) {?>
         <div class="forum-block forum-topic-title">
             <div class="forum-block-inner-top">
 
@@ -34,8 +44,10 @@ $Videos = GetVideos($dbh, "tactiek");
                 <br>
             </div>
         </div>
-		<?php } 
-		require_once("../../footer.php"); ?>
+		<?php 
+		}
+	}
+	require_once("../../footer.php"); ?>
 	</div>
 </div>
 </body>
