@@ -27,9 +27,11 @@
 				<i class="fa fa-caret-down"></i>
 	        </button>
 	        <div class="dropdown-content">
-				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/algemeen.php">Algemeen</a>
-				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/wedstrijden.php">Wedstrijden</a>
-				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/onzin_forum.php">Onzin</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/forumOverview.php?cat=algemeen">Algemeen</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/forumOverview.php?cat=wedstrijden">Wedstrijden</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/forumOverview.php?cat=onzin">Onzin</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/forumOverview.php?cat=trainers">Trainers</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_forum_pages/forumOverview.php?cat=geruchten">Geruchten</a>
 	        </div>
 	    </div>
 	    <a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/over_ons.php">Over ons</a>
@@ -39,11 +41,11 @@
 		<a class="menu-item menu-right" href="<?php $_SERVER['SERVER_NAME'];?>/logout.php">Uitloggen</a>
 		<?php } ?>
 	    <div class="menu-item menu-right">
-	        <form action="#">
+	        <form action="http://<?php echo $_SERVER['SERVER_NAME'];?>/search.php" method="GET">
 				
 				<?php if(isset($_SESSION['name'])) { echo '<span style="color:white">'.$_SESSION['name']."</span>";} ?>
 				
-				<input type="text" placeholder="Zoeken..." name="Zoeken">
+				<input type="text" placeholder="Zoeken..." name="q">
 				<button type="submit"><i class="fa fa-search"></i></button>
 	        </form>
 	    </div>

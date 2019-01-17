@@ -1,15 +1,22 @@
 <?php
 require_once("../../functions.php");
 require_once('../../dbConnection.php');
-$posts = GetAllForumPosts($dbh, "algemeen");
-$continue = false;
-$errMsg = "";
-if($posts["PDORetCode"] == 1) {
-	$posts = $posts['data'];
-	$continue = true;
+if(!empty($_GET['cat'])) {
+	$cat = $_GET['cat'];
 } else {
-	$continue = false;
-	$errMsg = "<h2>Er ging iets fout. Probeer het later opnieuw.</h2>";
+	header('Location: ../');
+	exit;
+}
+$Posts = GetAllForumPosts($dbh, $cat);
+$Continue = $LockForm = false;
+$ErrMsg = "";
+if($Posts["PDORetCode"] == 1) {
+	$Posts = $Posts['data'];
+	$Continue = true;
+} else {
+	$Continue = false;
+	$LockForm = true;
+	$ErrMsg = "<h2>Er ging iets fout. Probeer het later opnieuw.</h2>";
 }
 
 
@@ -20,7 +27,7 @@ CheckSession();
 <html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Algemeen Forum</title>
+    <title>Rubriek <?php echo $cat; ?></title>
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
@@ -28,9 +35,8 @@ CheckSession();
 <div class="content">
     <div class="content-block">
 		<?php 
-		echo $errMsg;
-		if(isset($_SESSION['loggedIn'])) { 
-			$cat = "algemeen";
+		echo $ErrMsg;
+		if(isset($_SESSION['loggedIn']) && !$LockForm) { 
 			$salt = $_SESSION['TOKENSALT'] = time();
 			$key = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
 		?>
@@ -50,8 +56,8 @@ CheckSession();
                 </thead>
                 <tbody>
 				<?php
-				if($continue) {
-					echo CreateForumOverview($posts);
+				if($Continue) {
+					echo CreateForumOverview($Posts);
 				}
 				?>
                 </tbody>

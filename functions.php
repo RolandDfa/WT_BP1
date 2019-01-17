@@ -73,11 +73,18 @@ function CheckLogin($dbh, $user, $passwd) {
 function GetAllForumPosts($dbh, $category) {
 	$Ret = array("PDORetCode"=>0);
 	try {
-		$stmt = $dbh->prepare("SELECT * FROM posts WHERE rubriek = :cat ORDER BY unixtijd DESC");
-		$param = [':cat'=>$category];
-		$stmt->execute($param);
-		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		$Ret = array('PDORetCode'=>1, 'data'=>$data);
+		$stmt = $dbh->prepare("SELECT count(*) FROM rubrieken WHERE rubriek = :rubriek");
+		$stmt->execute([':rubriek'=>$category]);
+		$data = $stmt->fetch(PDO::FETCH_NUM);
+		if($data[0] > 0) {
+			$stmt = $dbh->prepare("SELECT * FROM posts WHERE rubriek = :cat ORDER BY unixtijd DESC");
+			$param = [':cat'=>$category];
+			$stmt->execute($param);
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$Ret = array('PDORetCode'=>1, 'data'=>$data);
+		} else {
+			$Ret = array("PDORetCode"=>0);
+		}
 	} catch(PDOException $e) {
 		$Ret = array("PDORetCode"=>0);
 	}
@@ -236,17 +243,18 @@ function GetVideos($dbh, $cat) {
 }
 
 function SearchWebsite($dbh, $q) {
-	$Ret = array('RetCode'=>0);
+	$Ret = array('PDORetCode'=>0);
 	try {
-		$stmt = $dbh->prepare("SELECT * FROM posts WHERE kopje LIKE %:q% OR tekst LIKE %:q%");
-		$stmt->execute([':q'=>$q]);
+		$prm = array([':qe'=>$q, ':qf'=>$q]);
+		$stmt = $dbh->prepare("SELECT * FROM posts WHERE kopje LIKE CONCAT('%', :q1, '%') OR tekst LIKE CONCAT('%', :q2, '%')");
+		$stmt->execute([':q1'=>$q, ':q2'=>$q]);
 		$ForumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		$stmt = $dbh->prepare("SELECT * FROM videos WHERE titel LIKE %:q% OR samenvatting LIKE %:q%");
-		$stmt->execute([':q'=>$q]);
-		$VideoData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		$Ret = array('RetCode'=>1, 'VideoData'=>$VideoData, 'ForumData'=>$ForumData);
+		$stmt2 = $dbh->prepare("SELECT * FROM videos WHERE titel LIKE CONCAT('%', :q1, '%') OR samenvatting LIKE CONCAT('%', :q2, '%')");
+		$stmt2->execute([':q1'=>$q, ':q2'=>$q]);
+		$VideoData = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+		$Ret = array('PDORetCode'=>1, 'data'=>array('VideoData'=>$VideoData, 'ForumData'=>$ForumData));
 	} catch(PDOException $e) {
-		$Ret = array('RetCode'=>0);
+		$Ret = array('PDORetCode'=>0);
 	}
 	return $Ret;
 }

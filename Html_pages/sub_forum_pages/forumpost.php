@@ -11,15 +11,10 @@ if($postData['PDORetCode'] == 1) {
 	$userErr = "<h2>Er ging iets fout</h2>";
 }
 
-
-
-
-
 if(isset($_POST['opslaan'])) {
 	$text = isset($_POST['reply']) ? $_POST['reply'] : '';
 	$text = nl2br(urlencode(htmlentities($text)));
 	$userErr = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
-	var_dump($userErr);
 	$postReplies = GetPostReplies($dbh, $id);
 	
 	if($postReplies['PDORetCode'] == 1) {
@@ -30,6 +25,7 @@ if(isset($_POST['opslaan'])) {
 	$_POST = array();
 	$postReplies = GetPostReplies($dbh, $id);
 }
+
 $postReplies = GetPostReplies($dbh, $id);
 if($postReplies['PDORetCode'] == 1) {
 	$postReplies = $postReplies['data'];
