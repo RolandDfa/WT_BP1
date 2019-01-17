@@ -5,7 +5,7 @@ function CheckSession() {
 	}
 }
 //bezoeker gerelateerde functies
-function RegisterUser($dbh, $user, $passwd, $fname $lname) {
+function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
     $parameters = array(':Name'=>$fname. ' ' . $lname,
         ':Username'=>$user,
         ':Password'=>$passwd);
