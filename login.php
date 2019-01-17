@@ -34,22 +34,24 @@ if(isset($_POST['login'])) {
 
 <html lang="Nl">
 	<body>
+    <div class="flex-container ">
 		<form method="POST" action="">
 			<span style="color:red"><?php echo $loginErr;?></span>
 			<table>
 				<tr>
-					<td>gebruikersnaam:</td>
-					<td><input type="text" name="username" placeholder="username" /></td>
+					<td class="item">gebruikersnaam:</td>
+                    <td class="item"><input type="text" name="username" placeholder="username" /></td>
 				</tr>
 				<tr>
-					<td>wachtwoord:</td>
-                    <td><label><input type="password" name="passwd" /></label></td>
+                    <td class="item">wachtwoord:</td>
+                    <td class="item"><label><input type="password" name="passwd" /></label></td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="login" value="inloggen" /></td>
-					<td></td>
+                    <td class="item"><input type="submit" name="login" value="inloggen" /></td>
+                    <td class="item"></td>
 				</tr>
 			</table>
 		</form>
+    </div>
 	</body>
 </html>	

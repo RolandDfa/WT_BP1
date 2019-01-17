@@ -47,7 +47,7 @@ $loginErr = "Onbekende fout";
         <!-- blocks containing the title and logo -->
         <div class="menu-block">
             <div class="site-header">
-                <a href="../index.html">
+                <a href="../index.php">
                     <img class="header-img" src="../images/Soccerball.svg" alt="voetbal_logo" /></a>
                 <div class="site-header-block">
                     <h1 class="site-title">Füssball Inside Nimma</h1>
@@ -55,15 +55,15 @@ $loginErr = "Onbekende fout";
         </div>
         <!-- block containing the menu -->
             <div class="navbar">
-                <a class="menu-item" href="../index.html">Home</a>
+                <a class="menu-item" href="../index.php">Home</a>
                 <div class="dropdown">
                     <button class="dropbtn">Video's
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content">
-                        <a class="menu-item" href="sub_video_pages/spelregels.html">Spelregels</a>
-                        <a class="menu-item" href="sub_video_pages/tactiek.html">Tactiek</a>
-                        <a class="menu-item" href="sub_video_pages/Bloopers.html">Bloopers</a>
+                        <a class="menu-item" href="sub_video_pages/spelregels.php">Spelregels</a>
+                        <a class="menu-item" href="sub_video_pages/tactiek.php">Tactiek</a>
+                        <a class="menu-item" href="sub_video_pages/Bloopers.php">Bloopers</a>
                     </div>
                 </div>
                 <div class="dropdown">
@@ -76,7 +76,7 @@ $loginErr = "Onbekende fout";
                         <a class="menu-item" href="sub_forum_pages/onzin_forum.php">Onzin</a>
                     </div>
                 </div>
-                <a class="menu-item" href="over_ons.html">Over ons</a>
+                <a class="menu-item" href="over_ons.php">Over ons</a>
                 <a class="menu-item menu-right" href="register.php">Bezoeker</a>
             </div>
     </div>
@@ -119,7 +119,6 @@ $loginErr = "Onbekende fout";
                         someone@example.com</a>.</strong></p>
                 </footer>
             </div>
-
         </div>
     </div>
 </body>

@@ -1,6 +1,7 @@
 <?php
 require("../../functions.php");
 require('../../dbConnection.php');
+CheckSession();
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -13,17 +14,25 @@ require('../../dbConnection.php');
 <?php require("../../header.php"); 
 $Videos = GetVideos($dbh, "spelregels");
 ?>
-<div class="content">
+<div class="forum-content">
+    <?php foreach($Videos as $Video) {?>
     <div class="content-block">
-        <div class="block">
-			<?php foreach($Videos as $Video) {?>
-            <iframe width="300" height="300" src="https://www.youtube.com/embed/<?php echo $Video['link'];?>"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-			<?php } ?>
+        <div class="forum-block forum-topic-title">
+            <div class="forum-block-inner-top">
+
+                <h2><?php echo $Video['titel'];?></h2>
+                <div class="forumpost-meta">
+                    <iframe width="300" height="300" src="https://www.youtube.com/embed/<?php echo $Video['link'];?>"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
+                </div>
+                <p><?php echo $Video['samenvatting']; ?></p>
+                <br>
+            </div>
         </div>
-        <?php require("../../footer.php"); ?>
+        <?php } ?>
     </div>
+    <?php require("../../footer.php"); ?>
 </div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<?phprequire("../../functions.php");
-require('../../dbConnection.php');
+<?php require("../functions.php");
+require('../dbConnection.php');
+CheckSession();
 ?>
 <html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -37,6 +38,7 @@ require('../../dbConnection.php');
                     <li>Tools4Ever</li>
                     <li>2D racegame</li>
                     <li>VR Schietspel</li>
+                    <li>Dutch Hitmen (coc) Member managment</li>
                 </ol>
                 <br />
             </div>

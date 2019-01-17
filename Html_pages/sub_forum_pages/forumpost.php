@@ -30,7 +30,7 @@ if(isset($_POST['opslaan'])) {
 <head>
     <meta charset="utf-8" />
     <title><?php echo "Forum ".$postData['rubriek']." - ".$postData['kopje'];?></title>
-    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
 <?php require("../../header.php");?>
@@ -41,7 +41,7 @@ if(isset($_POST['opslaan'])) {
 			<div class="forum-block-inner-top">
 				<h2><?php echo $postData['kopje'];?></h2>
 				<div class="forumpost-meta">
-					<h4 class="inline-forum-title"><?php echo $postData['bezoeker'].'</h4><br><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $postData['unixtijd']);?></p>
+                    <h4 class="inline-forum-title"></h4><?php echo $postData['bezoeker'].'</h4><br><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $postData['unixtijd']);?>
 				</div>
 				<hr />
 				<p><?php echo $postData['tekst']; ?></p>

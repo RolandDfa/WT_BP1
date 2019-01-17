@@ -114,7 +114,7 @@ function CreateForumAccessToken($cat, $user, $salt) {
 
 function HashPassword($passwd, $user) {
 	$StageOneKey = hash('ripemd160', $passwd);
-	$StageTwoKey = hash('sha512', $StageOneKey.$username);
+	$StageTwoKey = hash('sha384', $StageOneKey.$user);
 	return $StageTwoKey;
 }
 

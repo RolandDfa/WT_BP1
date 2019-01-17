@@ -6,6 +6,11 @@ body {
     display: flex;
     flex-direction: row;
 }
+.item {
+    order: 0;
+    width: 60%;
+    margin: auto;
+}
 @keyframes menuHoverFade {
     from {background-color: #333}
     to {background-color: #0081d6}

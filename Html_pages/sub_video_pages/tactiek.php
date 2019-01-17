@@ -1,6 +1,7 @@
 <?php
 require("../../functions.php");
 require('../../dbConnection.php');
+CheckSession();
 ?>
 <!DOCTYPE html>
 <html lang="nl">

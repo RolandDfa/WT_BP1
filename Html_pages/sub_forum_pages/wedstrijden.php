@@ -17,7 +17,7 @@ CheckSession();
 <div class="content">
     <div class="content-block">
 		<?php if(isset($_SESSION['loggedIn'])) { 
-			$cat = "wedstrijden";
+			$cat = "wedstrijden"; //miauw
 			$salt = $_SESSION['TOKENSALT'] = time();
 			$key = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
 		?>
