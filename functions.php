@@ -4,6 +4,10 @@ function CheckSession() {
 		session_start();
 	}
 }
+function ExecQuery($dbh, $q, $fetch) {
+	try {
+		$stmt = $
+
 //bezoeker gerelateerde functies
 function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
     $prm = array(':Name'=>$fname. ' ' . $lname,
@@ -95,7 +99,7 @@ function is_Username_Unique($invoer, $dbh)
     $stmt = $dbh->prepare('SELECT COUNT(login) FROM bezoekers WHERE login = :login');
 	$prm = array(':login'=>$invoer);
     $stmt->execute($prm);
-    $data = $stmt->fetch(PDO::FETCH_NUM);
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // controleren of de username voorkomt in de DB
     if ($data[0] > 0)
@@ -137,9 +141,30 @@ function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
 }
 
 function GetVideos($dbh, $cat) {
-	$stmt = $dbh->prepare("SELECT * FROM videos WHERE rubriek = :cat");
-	$stmt->execute([':cat'=>$cat]);
-	$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	
-	return $data;
+	$Ret = array('RetCode'=>0);
+	try {
+		$stmt = $dbh->prepare("SELECT * FROM videos WHERE rubriek = :cat");
+		$stmt->execute([':cat'=>$cat]);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$Ret = array('RetCode'=>1, 'Data'=>$data);
+	} catch(PDOException $e) {
+		$Ret = array('RetCode'=>0);
+	}
+	return $Ret;
+}
+
+function SearchWebsite($dbh, $q) {
+	$Ret = array('RetCode'=>0);
+	try {
+		$stmt = $dbh->prepare("SELECT * FROM posts WHERE kopje LIKE %:q% OR tekst LIKE %:q%");
+		$stmt->execute([':q'=>$q]);
+		$ForumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$stmt = $dbh->prepare("SELECT * FROM videos WHERE titel LIKE %:q% OR samenvatting LIKE %:q%");
+		$stmt->execute([':q'=>$q]);
+		$VideoData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$Ret = array('RetCode'=>1, 'VideoData'=>$VideoData, 'ForumData'=>$ForumData
+	} catch(PDOException $e) {
+		$Ret = array('RetCode'=>0);
+	}
+	return $Ret;
 }

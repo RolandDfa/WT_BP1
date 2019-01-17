@@ -17,14 +17,14 @@ $passwd = hash('sha384', $passwd);
 
 $loginReturn = CheckLogin($dbh, $username, $passwd);
 if($loginReturn['code'] == 0) {
-$loginErr = "Foutieve inloggegevens";
+	$loginErr = "Foutieve inloggegevens";
 } else if($loginReturn['code'] == 1) {
-$_SESSION['loggedIn'] = true;
-$_SESSION['LoginName'] = $username;
-$_SESSION['name'] = $loginReturn['name'];
-header('Location: ../');
+	$_SESSION['loggedIn'] = true;
+	$_SESSION['LoginName'] = $username;
+	$_SESSION['name'] = $loginReturn['name'];
+	header('Location: ../');
 } else {
-$loginErr = "Onbekende fout";
+	$loginErr = "Onbekende fout";
 }
 }
 
