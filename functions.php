@@ -14,22 +14,11 @@ function RegisterUser($dbh, $user, $passwd, $fname $lname) {
     $sth->execute($parameters);
 }
 
-function ExecQuery($dbh, $q, $param) {
-	try {
-		$stmt = $dbh->prepare($q);
-		$stmt->execute($param);
-		$return = $stmt;
-	}
-	catch(PDOException $e) {
-		$return = $e.get_message();
-	}
-	return $return;
-}
-
 function CheckLogin($dbh, $user, $passwd) {
 	$query = "SELECT * FROM bezoekers WHERE login = :username";
+	$stmt = $dbh->prepare($query);
 	$params = ([':username'=>$user]);
-	$stmt = ExecQuery($dbh, $query, $params);
+	$stmt->execute($params);
 	$data = $stmt->fetch(PDO::FETCH_ASSOC);
 	
 	$loginData['code'] = 0;
