@@ -11,25 +11,31 @@ CheckSession();
     <title>Video's Tactiek</title>
 </head>
 <body>
-<?php require("../../header.php"); ?>
-<div class="content">
+<?php require("../../header.php"); 
+$Videos = GetVideos($dbh, "tactiek");
+?>
+<div class="forum-content">
+    
     <div class="content-block">
-        <div class="block">
-                <iframe width="300" height="300" src="https://www.youtube.com/embed/IY2WtBSwwKM"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="300" height="300" src="https://www.youtube.com/embed/OIjsUVKx7tA"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="300" height="300" src="https://www.youtube.com/embed/VXpdYD0ZQz0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="300" height="300" src="https://www.youtube.com/embed/3t1Q3_GyJtY"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	<?php foreach($Videos as $Video) {?>
+        <div class="forum-block forum-topic-title">
+            <div class="forum-block-inner-top">
+
+                <h2><?php echo $Video['titel'];?></h2>
+                <div class="forumpost-meta">
+                    <iframe width="300" height="300" src="https://www.youtube.com/embed/<?php echo $Video['link'];?>"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
+                </div>
+                <p><?php echo $Video['samenvatting']; ?></p>
+				<hr>
+				<p class="forum-small forum-time"><?php echo gmdate("Y-m-d\ H:i:s", $Video['gepubliceerd']);?></p>
+                <br>
+            </div>
         </div>
-        <footer>
-            <p><strong>&#169; 2018 - Roland Huijskes, Thijs-Jan Guelen</strong></p>
-            <p><strong>Contact information: <a href="mailto:someone@example.com">
-                someone@example.com</a>.</strong></p>
-        </footer>
-    </div>
+		<?php } 
+		require("../../footer.php"); ?>
+	</div>
 </div>
 </body>
 </html>

@@ -11,21 +11,31 @@ CheckSession();
     <title>Video's Bloopers</title>
 </head>
 <body>
-<?php require("../../header.php");
+<?php require("../../header.php"); 
 $Videos = GetVideos($dbh, "bloopers");
 ?>
-<div class="content">
+<div class="forum-content">
+    
     <div class="content-block">
-        <div class="block">
-            <?php foreach($Videos as $Video) {?>
-                <h3><?php echo $Video['titel'] ?></h3>
-                <iframe width="300" height="300" src="https://www.youtube.com/embed/<?php echo $Video['link'];?>"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-            <?php } ?>
+	<?php foreach($Videos as $Video) {?>
+        <div class="forum-block forum-topic-title">
+            <div class="forum-block-inner-top">
+
+                <h2><?php echo $Video['titel'];?></h2>
+                <div class="forumpost-meta">
+                    <iframe width="300" height="300" src="https://www.youtube.com/embed/<?php echo $Video['link'];?>"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
+                </div>
+                <p><?php echo $Video['samenvatting']; ?></p>
+				<hr>
+				<p class="forum-small forum-time"><?php echo gmdate("Y-m-d\ H:i:s", $Video['gepubliceerd']);?></p>
+                <br>
+            </div>
         </div>
-        <?php require("../../footer.php"); ?>
-    </div>
+		<?php } 
+		require("../../footer.php"); ?>
+	</div>
 </div>
 </body>
 </html>

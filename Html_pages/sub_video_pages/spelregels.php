@@ -15,8 +15,9 @@ CheckSession();
 $Videos = GetVideos($dbh, "spelregels");
 ?>
 <div class="forum-content">
-    <?php foreach($Videos as $Video) {?>
+    
     <div class="content-block">
+	<?php foreach($Videos as $Video) {?>
         <div class="forum-block forum-topic-title">
             <div class="forum-block-inner-top">
 
@@ -27,12 +28,14 @@ $Videos = GetVideos($dbh, "spelregels");
                     </iframe>
                 </div>
                 <p><?php echo $Video['samenvatting']; ?></p>
+				<hr>
+				<p class="forum-small forum-time"><?php echo gmdate("Y-m-d\ H:i:s", $Video['gepubliceerd']);?></p>
                 <br>
             </div>
         </div>
-        <?php } ?>
-    </div>
-    <?php require("../../footer.php"); ?>
+		<?php } 
+		require("../../footer.php"); ?>
+	</div>
 </div>
 </body>
 </html>
