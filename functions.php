@@ -128,3 +128,11 @@ function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
 			':time'=>$time
 		]);
 }
+
+function GetVideos($dbh, $cat) {
+	$stmt = $dbh->prepare("SELECT * FROM videos WHERE rubriek = :cat");
+	$stmt->execute([':cat'=>$cat]);
+	$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	return $data;
+}
