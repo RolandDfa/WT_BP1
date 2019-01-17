@@ -88,7 +88,7 @@ if($loginReturn['code'] == 0) {
                     <div class="login">
                         <h1>Login</h1>
                         <!-- login form -->
-                        <form method="POST" action="">
+                        <form method="POST" action="#">
                             <span style="color:red"><?php echo $loginErr;?></span>
                             <table>
                                 <tr>
