@@ -140,6 +140,23 @@ function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
 	return $Ret;
 }
 
+function GetRecentPost($dbh)
+{
+    $Ret = "";
+    try
+    {
+        $stmt = $dbh->prepare("SELECT top 3  * from posts ORDER BY unixtijd desc");
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+    catch(PDOException $e) {
+        $Ret = "<h2>Er ging iets mis. Probeer het later opnieuw</h2>";
+    }
+    return $data;
+
+}
+
 function GetVideos($dbh, $cat) {
 	$Ret = array('RetCode'=>0);
 	try {
