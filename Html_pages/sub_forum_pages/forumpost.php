@@ -55,7 +55,7 @@ if($postReplies['PDORetCode'] == 1) {
 			<div class="forum-block-inner-top">
 				<h2><?php echo $postData['kopje'];?></h2>
 				<div class="forumpost-meta">
-                    <h4 class="inline-forum-title"></h4><?php echo $postData['bezoeker'].'</h4><br><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $postData['unixtijd']);?>
+                    <h4 class="inline-forum-title"><?php echo $postData['bezoeker'].'</h4><br><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $postData['unixtijd']);?>
 				</div>
 				<hr />
 				<p><?php echo $postData['tekst']; ?></p>
@@ -82,7 +82,7 @@ if($postReplies['PDORetCode'] == 1) {
 			<div class="forum-block round-edge">
 				<div class="forum-block-inner">
 					<h4>Laat een reactie achter:</h4>
-					<form method="POST" action="">
+					<form method="POST" action="#">
 						<textarea rows=5 style="width: 100%;" class="reply-field" name="reply" placeholder="Typ hier je reactie..."></textarea>
 						<br>
 						<input type="submit" name="opslaan" value="verstuur reactie" onclick="" />

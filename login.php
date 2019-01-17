@@ -35,7 +35,7 @@ if(isset($_POST['login'])) {
 <html lang="Nl">
 	<body>
     <div class="flex-container ">
-		<form method="POST" action="">
+		<form method="POST" action="./">
 			<span style="color:red"><?php echo $loginErr;?></span>
 			<table>
 				<tr>

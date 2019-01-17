@@ -3,8 +3,10 @@ require_once ('../functions.php');
 require_once ('../dbConnection.php');
 
 CheckSession();
-$UserErr = "";
+$FirstName = $LastName = $Username = $Password = $RetypePassword = NULL;
 
+$FnameErr = $LnameErr = $UserErr = $PassErr = $RePassErr = NULL;
+$CheckOnErrors = true;
 if(isset($_POST['registerbtn']))
 {
     $CheckOnErrors = false;
@@ -52,10 +54,28 @@ if(isset($_POST['registerbtn']))
         $UserErr = "deze Username bestaat al, kies een andere";
         $CheckOnErrors = true;
     }
-	$Password = HashPassword($Password, $Username);
-	RegisterUser($dbh, $Username, $Password, $FirstName, $LastName);
+    if(empty($Password))
+    {
+        $PassErr = "het wachtwoord moet minstens uit 6 tekens bestaan";
+        $CheckOnErrors = true;
+    }
 
-    echo "U heeft zich succesvol geregistreerd.";
+    //controleer het retype paswoord veld
+    if(empty($RetypePassword))
+    {
+        $RePassErr = "Dit veld is vereist";
+        $CheckOnErrors = true;
+    }
+    elseif($Password !=$RetypePassword)
+    {
+        $RePassErr = "De 2 wachtwoordvelden komen niet met elkaar overeen";
+        $CheckOnErrors = true;
+    }
+    if($CheckOnErrors == false)
+    {
+	$Password = HashPassword($Password, $Username);
+
+    }
 }
 
 ?>
@@ -73,44 +93,7 @@ if(isset($_POST['registerbtn']))
     <title>Bezoeker</title>
 </head>
 <body>
-<!-- all the content on the top of the page -->
-<div class="header">
-    <!-- blocks containing the title and logo -->
-    <div class="menu-block">
-        <div class="site-header">
-            <a href="../index.php">
-                <img class="header-img" src="../images/Soccerball.svg" alt="voetbal_logo" /></a>
-            <div class="site-header-block">
-                <h1 class="site-title">Füssball Inside Nimma</h1>
-            </div>
-        </div>
-        <!-- block containing the menu -->
-        <div class="navbar">
-            <a class="menu-item" href="../index.php">Home</a>
-            <div class="dropdown">
-                <button class="dropbtn">Video's
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a class="menu-item" href="sub_video_pages/spelregels.php">Spelregels</a>
-                    <a class="menu-item" href="sub_video_pages/tactiek.php">Tactiek</a>
-                    <a class="menu-item" href="sub_video_pages/Bloopers.php">Bloopers</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="dropbtn">Forum
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a class="menu-item" href="sub_forum_pages/algemeen.php">Algemeen</a>
-                    <a class="menu-item" href="sub_forum_pages/wedstrijden.php">Wedstrijden</a>
-                    <a class="menu-item" href="sub_forum_pages/onzin_forum.php">Onzin</a>
-                </div>
-            </div>
-            <a class="menu-item" href="over_ons.php">Over ons</a>
-            <a class="menu-item menu-right" href="register.php">Bezoeker</a>
-        </div>
-    </div>
+<?php require_once( '../header.php') ?>
     <!-- block containing the main content of the page -->
     <div class="content small-content round-edge">
         <div class="content-block">
@@ -121,23 +104,27 @@ if(isset($_POST['registerbtn']))
             </div>
             <div class="block round-edge">
                 <div class="register">
-                    <form method="POST" action="">
-                        <span style="color:red"><?php echo $UserErr;?></span>
+                    <form method="POST" action="#">
+
                         <div class="container">
+
+                            <span style="color:red"><?php echo $UserErr; ?></span>
                             <p><b>Gebruikersnaam</b></p>
-                            <input type="text" placeholder="Voer gebruikersnaam in" name="username" require_onced><br/>
-
+                            <input type="text" placeholder="Voer gebruikersnaam in" name="username" required><br/>
+                            <span style="color:red"><?php echo $Password; ?></span>
                            <p><b>Wachtwoord</b></p>
-                            <input type="password" placeholder="Voer wachtwoord in" name="psw" require_onced><br/>
-
+                            <input type="password" placeholder="Voer wachtwoord in" name="psw" required><br/>
+                            <span style="color:red"><?php echo $RePassErr; ?></span>
                             <p><b>Herhaal wachtwoord</b></p>
-                            <input type="password" placeholder="Herhaal wachtwoord" name="psw-repeat" require_onced>
+                            <input type="password" placeholder="Herhaal wachtwoord" name="psw-repeat" required>
                             <hr>
+                            <span style="color:red"><?php echo $FnameErr; ?></span>
                             <p><b>Voornaam</b></p>
-                            <input type="text" placeholder="Voornaam" name="firstname" require_onced>
+                            <input type="text" placeholder="Voornaam" name="firstname" required>
                             <hr>
+                            <span style="color:red"><?php echo $LnameErr; ?></span>
                             <p><b>Achternaam</b></p>
-                            <input type="text" placeholder="Achternaam" name="lastname" require_onced>
+                            <input type="text" placeholder="Achternaam" name="lastname" required>
                             <hr>
                             <p>Met het aanmaken van een account, gaat u akkoord met onze voorwaarden <a href="#">Terms & Privacy</a>.</p>
 
@@ -163,7 +150,7 @@ if(isset($_POST['registerbtn']))
             </footer>
         </div>
     </div>
-</div>
+
 </body>
 </html>
 <?php
