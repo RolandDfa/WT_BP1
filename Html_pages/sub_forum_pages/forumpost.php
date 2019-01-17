@@ -73,7 +73,8 @@ if(isset($_POST['opslaan'])) {
 					<form method="POST" action="">
 						<textarea rows=5 style="width: 100%;" class="reply-field" name="reply" placeholder="Typ hier je reactie..."></textarea>
 						<br>
-						<input type="submit" name="opslaan" value="verstuur reactie" />
+						<input type="submit" name="opslaan" value="verstuur reactie" onclick="" />
+
 					</form>
 				</div>
 			</div>

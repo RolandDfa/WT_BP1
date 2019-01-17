@@ -1,6 +1,6 @@
 ﻿<?php
-require_once('dbConnection.php');
-require_once('functions.php');
+require('dbConnection.php');
+require('functions.php');
 
 CheckSession();
 ?>
@@ -17,25 +17,51 @@ CheckSession();
     <title>Home</title>
 </head>
     <body>
-        <!-- all the content on the top of the page -->
-        <?php require_once('header.php'); ?>
-        <!-- block containing the main content of the page -->
-        <div class="content">
-            <div class="content-block">
-                <!-- the content itself -->
-                <div class="block">
-                    <h2>Welkom op onze site!</h2>
-                    <p>Welkom op de website van Füssball inside Nijmegen!<br /><br />
+    <?php require('header.php');?>
+    <div class="content">
+        <div class="content-block">
+            <?php if(isset($_SESSION['loggedIn'])) {
+                $cat = "algemeen";
+                $salt = $_SESSION['TOKENSALT'] = time();
+                $key = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
+                ?>
+
+            <?php } ?>
+            <div class="block">
+                <h2>Welkom op onze site!</h2>
+                <p>Welkom op de website van Füssball inside Nijmegen!<br /><br />
                     Op deze site vind je verschillende video's over bijvoorbeeld tactieken en spelregels, maar ook leuke bloopers!<br /><br />
-                        Ook hebben we een community forum. Momenteel hebben we drie categorieën:</p>
-                    <ul>
-                        <li>Algemeen - Alle algemene voetbalzaken kunnen hier besproken worden</li>
-                        <li>Wedstrijden - Hier kunnen wedstrijden, zowel lokaal als landelijk als internationaal besproken worden. Houd het wel netjes!</li>
-                        <li>Onzin - Hier kunnen alle zaken besproken worden die niet aan voetbal gerelateerd zijn</li>
-                    </ul>
-                </div>
-				<?php require_once("footer.php"); ?>
-            </div>
+                    Ook hebben we een community forum. Momenteel hebben we drie categorieën:</p>
+                <table>
+                    <thead>
+                    <tr class="table-header">
+                        <td>Kopje</td>
+                        <td>tekst</td>
+                        <td>Bezoeker</td>
+                        <td>Publicatie datum</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php
+                     $posts = GetRecentPost($dbh);
+                    // var_dump($posts);
+                    foreach ($posts as $post)
+                    {?>
+                        <tr>
+                        <td><?php echo $post['kopje'] ?></td>
+                        <td><?php echo $post['tekst']?></td>
+                        <td><?php echo $post['bezoeker']?></td>
+                        <td><?php echo gmdate("d-m-Y\ H:i:s", $post['unixtijd']);?></td>
+                        </tr>
+                   <?php }
+
+                    ?>
+                    </tbody>
+                </table>
+            <?php require("footer.php"); ?>
         </div>
+    </div>
+
     </body>	
 </html>
