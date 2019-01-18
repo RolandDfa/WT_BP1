@@ -54,7 +54,7 @@ ControleerLogin();
                     // var_dump($posts);
                     foreach ($posts as $post)
                     {?>	
-                        <tr>
+                        <tr class="tr-border">
                         <td><?php echo urldecode($post['kopje']); ?></td>
                         <td><?php echo urldecode($post['tekst']);?></td>
                         <td><?php echo $post['bezoeker'];?></td>
