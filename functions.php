@@ -51,7 +51,7 @@ function BestaatRubriek($dbh, $category) {
 	} catch(PDOException $e) {
 		$Ret = array("PDORetCode"=>0);
 	}
-}
+		
 
 function AlleForumBerichten($dbh, $category) {
 	$Ret = array("PDORetCode"=>0);
