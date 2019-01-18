@@ -34,9 +34,12 @@ ControleerLogin();
 <?php require_once('../../header.php');?>
 <div class="content">
     <div class="content-block">
-		<?php echo $ErrMsg; ?>
+		<?php 
+		echo $ErrMsg;
+		if(isset($_SESSION['loggedIn']) && !$LockForm) { 
+		?>
 		<div class="forum-block-inner">
-		<a href="./startTopic.php?cat=<?php echo $cat;?>">Start een nieuw topic</a>
+		<a href="./startTopic.php?cat=<?php echo $cat.'&token='.$key;?>">Start een nieuw topic</a>
 		</div>
 		<?php } ?>
         <div class="block">
