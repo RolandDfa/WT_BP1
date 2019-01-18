@@ -12,7 +12,7 @@ function ExecQueryParam($dbh, $q, $fetch, $param) {
 		if($fetch == "all") {
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else {
-			$data = $stmt->fetch($PDO::FETCH_ASSOC);
+			$data = $stmt->fetch(PDO::FETCH_ASSOC);
 		}
 		$Ret = array('PDORetCode'=>1, $data);
 	} catch(PDOException $e) {
