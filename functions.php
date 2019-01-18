@@ -3,36 +3,7 @@ function CheckSession() {
 	if(!isset($_SESSION)) {
 		session_start();
 	}
-}
-function ExecQueryParam($dbh, $q, $fetch, $param) {
-	$Ret = array('PDORetCode'=>0);
-	try {
-		$stmt = $dbh->prepare($q);
-		$stmt->execute($param);
-		if($fetch == "all") {
-			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		} else {
-			$data = $stmt->fetch($PDO::FETCH_ASSOC);
-		}
-		$Ret = array('PDORetCode'=>1, $data);
-	} catch(PDOException $e) {
-		$Ret = array('PDORetCode'=>0);
-	}
-	return $Ret;
 }	
-
-function ExecQuery($dbh, $q, $param) {
-	$Ret = "Er ging iets fout. Probeer het later opnieuw.";
-	try {
-		$stmt = $dbh->prepare($q);
-		$stmt->execute($param);
-		$Ret = 'Opslaan gelukt';
-	} catch(PDOException $e) {
-		$Ret = "Er ging iets fout. Probeer het later opnieuw.";
-	}
-	return $Ret;
-}	
-		
 
 //bezoeker gerelateerde functies
 function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
@@ -96,7 +67,7 @@ function CreateForumOverview($posts) {
 	$Ret = "";
 	foreach($posts as $post) {
 		$Ret = $Ret.'<tr class="forum-even">';
-		$Ret = $Ret.'<td class="topic-title"><a href="./forumpost.php?id='.$post['id'].'">'.$post['kopje'].'</a></td>';
+		$Ret = $Ret.'<td class="topic-title"><a href="./forumpost.php?id='.$post['id'].'">'.urldecode($post['kopje']).'</a></td>';
 		$Ret = $Ret.'<td class="topic-user">'.$post['bezoeker'].'</td>';
 		$Ret = $Ret.'<td class="topic-date">'.gmdate("Y-m-d\ H:i:s", $post['unixtijd']).'</td>';
 		$Ret = $Ret.'</tr>';
@@ -255,6 +226,23 @@ function SearchWebsite($dbh, $q) {
 		$Ret = array('PDORetCode'=>1, 'data'=>array('VideoData'=>$VideoData, 'ForumData'=>$ForumData));
 	} catch(PDOException $e) {
 		$Ret = array('PDORetCode'=>0);
+	}
+	return $Ret;
+}
+
+function ControleerVideoCategorie($dbh, $cat) {
+	$Ret = 0;
+	try {
+		$stmt = $dbh->prepare('SELECT COUNT(rubriek) FROM videos WHERE rubriek = :rubriek');
+		$stmt->execute([':rubriek'=>$cat]);
+		$data = $stmt->fetch(PDO::FETCH_NUM);
+		if($data[0] > 0) {
+			$Ret = 1;
+		} else {
+			$Ret = 0;
+		}
+	} catch(PDOException $e) {
+		$Ret = 0;
 	}
 	return $Ret;
 }

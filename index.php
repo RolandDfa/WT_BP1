@@ -55,9 +55,9 @@ CheckSession();
                     foreach ($posts as $post)
                     {?>
                         <tr>
-                        <td><?php echo $post['kopje'] ?></td>
-                        <td><?php echo $post['tekst']?></td>
-                        <td><?php echo $post['bezoeker']?></td>
+                        <td><?php echo urldecode($post['kopje']); ?></td>
+                        <td><?php echo urldecode($post['tekst']);?></td>
+                        <td><?php echo $post['bezoeker'];?></td>
                         <td><?php echo gmdate("d-m-Y\ H:i:s", $post['unixtijd']);?></td>
                         </tr>
                    <?php }

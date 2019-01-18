@@ -17,9 +17,9 @@
 				<i class="fa fa-caret-down"></i>
 	        </button>
 	        <div class="dropdown-content">
-				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_video_pages/spelregels.php">Spelregels</a>
-				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_video_pages/tactiek.php">Tactiek</a>
-				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_video_pages/Bloopers.php">Bloopers</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_video_pages/videos.php?cat=spelregels">Spelregels</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_video_pages/videos.php?cat=tactiek">Tactiek</a>
+				<a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/sub_video_pages/videos.php?cat=bloopers">Bloopers</a>
 	        </div>
 	    </div>
 	    <div class="dropdown">

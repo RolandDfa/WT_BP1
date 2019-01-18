@@ -11,19 +11,21 @@ if($postData['PDORetCode'] == 1) {
 	$userErr = "<h2>Er ging iets fout</h2>";
 }
 
+$CompareArr = array();
+
 if(isset($_POST['opslaan'])) {
-	$text = isset($_POST['reply']) ? $_POST['reply'] : '';
-	$text = nl2br(urlencode(htmlentities($text)));
-	$userErr = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], time());
-	$postReplies = GetPostReplies($dbh, $id);
-	
-	if($postReplies['PDORetCode'] == 1) {
-		$postReplies = $postReplies['data'];
+	if(empty($_POST['reply'])) {
+		$userErr = '<h2 style="color: red">Reactie kan niet leeg zijn</h2>';
 	} else {
-		$userErr = $userErr."<h2>Er ging iets fout met het ophalen van reacties</h2>";
+		$text = isset($_POST['reply']) ? $_POST['reply'] : '';
+		$text = nl2br(urlencode(htmlentities($text)));
+		$time = time();
+		
+		$userErr = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], $time);
+		$postReplies = GetPostReplies($dbh, $id);
+
+		header('Location: ./forumpost.php?id='.$id);
 	}
-	$_POST = array();
-	$postReplies = GetPostReplies($dbh, $id);
 }
 
 $postReplies = GetPostReplies($dbh, $id);
@@ -51,12 +53,12 @@ if($postReplies['PDORetCode'] == 1) {
         <div class="forum-block forum-topic-title">
 			<?php echo $userErr;?>
 			<div class="forum-block-inner-top">
-				<h2><?php echo $postData['kopje'];?></h2>
+				<h2><?php echo urldecode($postData['kopje']);?></h2>
 				<div class="forumpost-meta">
                     <h4 class="inline-forum-title"><?php echo $postData['bezoeker'].'</h4><br><p class="forum-small forum-time">'.gmdate("Y-m-d\ H:i:s", $postData['unixtijd']);?>
 				</div>
 				<hr />
-				<p><?php echo $postData['tekst']; ?></p>
+				<p><?php echo urldecode($postData['tekst']); ?></p>
 				<br>
 			</div>
         </div>
