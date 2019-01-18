@@ -34,7 +34,7 @@ ControleerLogin();
                 <h2>Welkom op onze site!</h2>
                 <p>Welkom op de website van Füssball inside Nijmegen!<br /><br />
                     Op deze site vind je verschillende video's over bijvoorbeeld tactieken en spelregels, maar ook leuke bloopers!<br /><br />
-                    Ook hebben we een community forum. Momenteel hebben we drie categorieën:</p>
+                    Ook hebben we een community forum. Dit zijn de meest recente berichten;</p>
 				<?php
 				echo $GeneralErr; 
 				if($continue) {?>
@@ -53,7 +53,7 @@ ControleerLogin();
                      
                     // var_dump($posts);
                     foreach ($posts as $post)
-                    {?>
+                    {?>	
                         <tr>
                         <td><?php echo urldecode($post['kopje']); ?></td>
                         <td><?php echo urldecode($post['tekst']);?></td>
