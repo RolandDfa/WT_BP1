@@ -41,13 +41,13 @@ ControleerLogin();
 			<?php foreach($Results['ForumData'] as $Result) {?>
 			<div class="forum-block forum-topic-title">
 				<div class="forum-block-inner-top">
-					<h2><?php echo $Result['kopje'];?></h2>
+					<h2><?php echo urldecode($Result['kopje']);?></h2>
 					<div class="forumpost-meta">
 						<h4 class="inline-forum-title"><?php echo $Result['bezoeker'].'</h4><br><p class="forum-small forum-time">'.gmdate(	
 						"Y-m-d\ H:i:s", $Result['unixtijd']);?>
 					</div>
 					<hr />
-					<p><?php echo $Result['tekst']; ?></p>
+					<p><?php echo urldecode($Result['tekst']); ?></p>
 					<br>
 				</div>
 			</div>
