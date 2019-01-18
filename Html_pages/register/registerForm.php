@@ -22,7 +22,7 @@
 				</div>
 				<div class="block round-edge">
 					<div class="register">
-						<form method="POST" action="./register.php">
+						<form method="POST" action="./index.php">
 							<div class="container">
 								<span style="color:red"><?php echo $UserErr; ?></span>
 								<p><b>Gebruikersnaam</b></p>
