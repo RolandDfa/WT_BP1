@@ -36,7 +36,7 @@ ControleerLogin();
     <div class="content-block">
 		<?php echo $ErrMsg; ?>
 		<div class="forum-block-inner">
-		<a href="./startTopic.php?cat=<?php echo $cat.'&token='.$key;?>">Start een nieuw topic</a>
+		<a href="./startTopic.php?cat=<?php echo $cat;?>">Start een nieuw topic</a>
 		</div>
 		<?php } ?>
         <div class="block">
