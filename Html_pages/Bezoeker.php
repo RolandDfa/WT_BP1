@@ -43,8 +43,8 @@ if($loginReturn['code'] == 0) {
 	<body>
 	<!-- all the content on the top of the page -->
 		<!-- block containing the main content of the page -->
-		<div class="flex-container content">
 		<?php require_once("../header.php");?>
+		<div class="flex-container content">
 			<div class="content-block">
 				<!-- the content itself -->
 				<div class="block">
