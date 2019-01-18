@@ -68,7 +68,7 @@ function GenereerForumOverzicht($posts) {
 	$Ret = "";
 	foreach($posts as $post) {
 		$Ret = $Ret.'<tr class="forum-even">';
-		$Ret = $Ret.'<td class="topic-title"><a href="./forumpost.php?id='.$post['id'].'">'.urldecode($post['kopje']).'</a></td>';
+		$Ret = $Ret.'<td class="topic-title"><a href="./forumpost/?id='.$post['id'].'">'.urldecode($post['kopje']).'</a></td>';
 		$Ret = $Ret.'<td class="topic-user">'.$post['bezoeker'].'</td>';
 		$Ret = $Ret.'<td class="topic-date">'.gmdate("Y-m-d\ H:i:s", $post['unixtijd']).'</td>';
 		$Ret = $Ret.'</tr>';

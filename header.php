@@ -36,7 +36,7 @@
 	    </div>
 	    <a class="menu-item" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/over_ons.php">Over ons</a>
 	    <?php if(!isset($_SESSION['loggedIn'])) {?>
-		<a class="menu-item menu-right" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/register.php">Bezoeker</a>
+		<a class="menu-item menu-right" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/register/">Bezoeker</a>
 		<?php } else { ?>
 		<a class="menu-item menu-right" href="<?php $_SERVER['SERVER_NAME'];?>/logout.php">Uitloggen</a>
 		<?php } ?>
