@@ -263,3 +263,8 @@ thead {
     border: none;
     cursor: pointer;
 }
+
+/* table style */
+tr {
+	border: 1px solid black;
+}
