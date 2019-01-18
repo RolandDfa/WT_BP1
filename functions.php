@@ -41,18 +41,7 @@ function ControleerLoginData($dbh, $user, $passwd) {
 	return $LoginData;
 }
 
-function BestaatRubriek($dbh, $category) {
-	$Ret = array("PDORetCode"=>0);
-	try {
-		$stmt = $dbh->prepare("SELECT count(*) FROM rubrieken WHERE rubriek = :rubriek");
-		$stmt->execute([':rubriek'=>$category]);
-		$data = $stmt->fetch(PDO::FETCH_NUM);
-		$Ret = array('PDORetCode'=>1, 'data'=>$data);
-	} catch(PDOException $e) {
-		$Ret = array("PDORetCode"=>0);
-	}
-		
-
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function AlleForumBerichten($dbh, $category) {
 	$Ret = array("PDORetCode"=>0);
 	try {
