@@ -7,7 +7,7 @@ if(!empty($_GET['cat'])) {
 	header('Location: ../');
 	exit;
 }
-$Posts = GetAllForumPosts($dbh, $cat);
+$Posts = AlleForumBerichten($dbh, $cat);
 $Continue = $LockForm = false;
 $ErrMsg = "";
 if($Posts["PDORetCode"] == 1) {
@@ -20,7 +20,7 @@ if($Posts["PDORetCode"] == 1) {
 }
 
 
-CheckSession();
+ControleerLogin();
 ?>
 <!DOCTYPE html>
 
@@ -38,7 +38,7 @@ CheckSession();
 		echo $ErrMsg;
 		if(isset($_SESSION['loggedIn']) && !$LockForm) { 
 			$salt = $_SESSION['TOKENSALT'] = time();
-			$key = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
+			$key = GenereerForumAccessToken($cat, $_SESSION['name'], $salt);
 		?>
 		<div class="forum-block-inner">
 			<a href="./startTopic.php?cat=<?php echo $cat.'&token='.$key;?>"><button>Start een nieuw topic</button></a>
@@ -57,7 +57,7 @@ CheckSession();
                 <tbody>
 				<?php
 				if($Continue) {
-					echo CreateForumOverview($Posts);
+					echo GenereerForumOverzicht($Posts);
 				}
 				?>
                 </tbody>

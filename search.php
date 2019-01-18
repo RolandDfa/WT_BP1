@@ -7,7 +7,7 @@ if(!empty($_GET['q'])) {
 	header('Location: ../');
 	exit;
 }
-$Results = SearchWebsite($dbh, $q);
+$Results = ZoekWebsite($dbh, $q);
 $Continue = false;
 $ErrMsg = "";
 if($Results["PDORetCode"] == 1) {
@@ -19,7 +19,7 @@ if($Results["PDORetCode"] == 1) {
 }
 
 
-CheckSession();
+ControleerLogin();
 ?>
 <!DOCTYPE html>
 

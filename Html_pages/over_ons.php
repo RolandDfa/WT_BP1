@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php require_once("../functions.php");
 require_once('../dbConnection.php');
-CheckSession();
+ControleerLogin();
 ?>
 <html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
 <head>

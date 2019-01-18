@@ -1,12 +1,12 @@
 <?php
-function CheckSession() {
+function ControleerLogin() {
 	if(!isset($_SESSION)) {
 		session_start();
 	}
 }	
 
 //bezoeker gerelateerde functies
-function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
+function RegistreerGebruiker($dbh, $user, $passwd, $fname, $lname) {
     $prm = array(':Name'=>$fname. ' ' . $lname,
         ':Username'=>$user,
         ':Password'=>$passwd);
@@ -23,7 +23,7 @@ function RegisterUser($dbh, $user, $passwd, $fname, $lname) {
 	return $Ret;
 }
 
-function CheckLogin($dbh, $user, $passwd) {
+function ControleerLoginData($dbh, $user, $passwd) {
 	$LoginData['code'] = 0;
 	try {
 		$stmt = $dbh->prepare("SELECT * FROM bezoekers WHERE login = :username");
@@ -41,7 +41,7 @@ function CheckLogin($dbh, $user, $passwd) {
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function GetAllForumPosts($dbh, $category) {
+function AlleForumBerichten($dbh, $category) {
 	$Ret = array("PDORetCode"=>0);
 	try {
 		$stmt = $dbh->prepare("SELECT count(*) FROM rubrieken WHERE rubriek = :rubriek");
@@ -63,7 +63,7 @@ function GetAllForumPosts($dbh, $category) {
 }
 
 //haal alle titels op van forum posts en maak er een tabel van
-function CreateForumOverview($posts) {
+function GenereerForumOverzicht($posts) {
 	$Ret = "";
 	foreach($posts as $post) {
 		$Ret = $Ret.'<tr class="forum-even">';
@@ -75,7 +75,7 @@ function CreateForumOverview($posts) {
 	return $Ret;
 }
 
-function GetForumPost($dbh, $id) {
+function HaalForumBerichtOp($dbh, $id) {
 	$ret = array('PDORetCode'=>0);
 	try {
 		$Query = 'SELECT * FROM posts WHERE id = :id';
@@ -90,7 +90,7 @@ function GetForumPost($dbh, $id) {
 	return $Ret;
 }
 
-function GetPostReplies($dbh, $postID) {
+function HaalBerichtReactiesOp($dbh, $postID) {
 	$Ret = array('PDORetCode'=>0);
 	try {
 		$Query = "SELECT * FROM posts_replies WHERE post_id = :pid ORDER BY unixtijd asc";
@@ -106,7 +106,7 @@ function GetPostReplies($dbh, $postID) {
 	return $Ret;
 }
 
-function SavePostReply($dbh, $postID, $text, $user, $time) {
+function ReactieOpslaan($dbh, $postID, $text, $user, $time) {
 	$Ret = "";
 	try {
 		$stmt = $dbh->prepare("INSERT INTO posts_replies (post_id, tekst, bezoeker, unixtijd) VALUES (:pid, :text, :user, :time)");
@@ -123,15 +123,15 @@ function SavePostReply($dbh, $postID, $text, $user, $time) {
 	return $Ret;
 }
 
-function is_minlength($invoer, $minLengte)
+function IsMinimumLengte($invoer, $minLengte)
 {
     return (strlen($invoer) >= (int)$minLengte);
 }
-function is_Char_Only($invoer)
+function IsAlleenKarakters($invoer)
 {
     return (bool)(preg_match("/^[a-zA-Z ]*$/", $invoer)) ;
 }
-function is_Username_Unique($invoer, $dbh)
+function IsGebruikersnaamUniek($invoer, $dbh)
 {
 	$Ret = array('PDORetCode'=>0);
 	try	{
@@ -151,7 +151,7 @@ function is_Username_Unique($invoer, $dbh)
 	return $Ret;
 }
 
-function CreateForumAccessToken($cat, $user, $salt) {
+function GenereerForumAccessToken($cat, $user, $salt) {
 	$StageOneKey = hash('ripemd160', $user);
 	$StageTwoKey = hash('sha256', $StageOneKey.$cat);
 	$StageThreeKey = hash('crc32b', $StageTwoKey.$salt);
@@ -159,13 +159,13 @@ function CreateForumAccessToken($cat, $user, $salt) {
 	return $Key;
 }
 
-function HashPassword($passwd, $user) {
+function GenereerWachtwoord($passwd, $user) {
 	$StageOneKey = hash('ripemd160', $passwd);
 	$StageTwoKey = hash('sha384', $StageOneKey.$user);
 	return $StageTwoKey;
 }
 
-function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
+function SlaPostOp($dbh, $title, $text, $user, $cat, $time) {
 	$Ret = "";
 	try {
 		$stmt = $dbh->prepare("INSERT INTO posts (kopje, tekst, bezoeker, rubriek, unixtijd) VALUES (:title, :text, :user, :cat, :time)");
@@ -183,7 +183,7 @@ function CreateForumPost($dbh, $title, $text, $user, $cat, $time) {
 	return $Ret;
 }
 
-function GetRecentPost($dbh)
+function RecentePosts($dbh)
 {
     $Ret = array('PDORetCode'=>0);
     try
@@ -200,7 +200,7 @@ function GetRecentPost($dbh)
 
 }
 
-function GetVideos($dbh, $cat) {
+function HaalVideosOp($dbh, $cat) {
 	$Ret = array('PDORetCode'=>0);
 	try {
 		$stmt = $dbh->prepare("SELECT * FROM videos WHERE rubriek = :cat");
@@ -213,7 +213,7 @@ function GetVideos($dbh, $cat) {
 	return $Ret;
 }
 
-function SearchWebsite($dbh, $q) {
+function ZoekWebsite($dbh, $q) {
 	$Ret = array('PDORetCode'=>0);
 	try {
 		$prm = array([':qe'=>$q, ':qf'=>$q]);

@@ -1,7 +1,7 @@
 <?php
 require_once('dbConnection.php');
 require_once('functions.php');
-CheckSession();
+ControleerLogin();
 
 if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
 	header('Location: ../');
@@ -16,7 +16,7 @@ if(isset($_POST['login'])) {
 	//hash het wachtwoord
 	$passwd = hash('sha384', $passwd); 
 	
-	$loginReturn = CheckLogin($dbh, $username, $passwd);
+	$loginReturn = ControleerLoginData($dbh, $username, $passwd);
 	if($loginReturn['code'] == 0) {
 		$loginErr = "Foutieve inloggegevens";
 	} else if($loginReturn['code'] == 1) {

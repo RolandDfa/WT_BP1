@@ -1,6 +1,6 @@
 <?php
 require_once("functions.php");
-CheckSession();
+ControleerLogin();
 session_destroy();
 
 header('Location: ../');

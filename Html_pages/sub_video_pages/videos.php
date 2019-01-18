@@ -1,7 +1,7 @@
 <?php
 require_once("../../functions.php");
 require_once('../../dbConnection.php');
-CheckSession();
+ControleerLogin();
 
 if(!empty($_GET['cat'])) {
 	$cat = $_GET['cat'];
@@ -18,7 +18,7 @@ if($Check == 1) {
 	$Continue = false;
 	$userErr = "<h2>Er ging iets fout. Probeer het later opnieuw</h2>";
 }
-$Videos = GetVideos($dbh, $cat);
+$Videos = HaalVideosOp($dbh, $cat);
 if($Videos['PDORetCode'] == 1) {
 	$Videos = $Videos['data'];
 	$continue = true;

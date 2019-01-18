@@ -1,7 +1,7 @@
 ﻿<?php
 require_once('dbConnection.php');
 require_once('functions.php');
-$posts = GetRecentPost($dbh);
+$posts = RecentePosts($dbh);
 
 $continue = false;
 $GeneralErr = "";
@@ -12,7 +12,7 @@ if($posts['PDORetCode'] == 1) {
 	$userErr = '<h2 style="color:red">Er ging iets fout bij het ophalen van recente forum posts. Sorry voor het ongemak.</h2>';
 }
 
-CheckSession();
+ControleerLogin();
 ?>
 
 <!DOCTYPE html>

@@ -1,7 +1,8 @@
 <?php
 require_once('../../functions.php');
 require_once('../../dbConnection.php');
-checkSession();
+ControleerLogin();
+$title = $text = "";
 if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['token'] != '') {
 	$cat = $_GET['cat'];
 	$key = $_GET['token'];
@@ -9,11 +10,13 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 	
 	$errMsg = "";
 	
-	$checkKey = CreateForumAccessToken($cat, $_SESSION['name'], $salt);
+	$checkKey = GenereerForumAccessToken($cat, $_SESSION['name'], $salt);
 	//echo "check key is ".$checkKey."<br><br>Sent key is ".$key;
 	if(isset($_POST['send'])) {
 		if(empty($_POST['title']) || empty($_POST['postText'])) {
 			$errMsg = '<h4 style="color:red">Titel en/of bericht kan niet leeg zijn';
+			$title = isset($_POST['title']) ? $_POST['title'] : '';
+			$text = isset($_POST['postText']) ? $_POST['postText'] : '';
 		} else {
 			$title = isset($_POST['title']) ? $_POST['title'] : '';
 			$text = isset($_POST['postText']) ? $_POST['postText'] : '';
@@ -25,7 +28,7 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 			$time = time();
 			//hier een functie die filtert op verboden karakters/code
 		
-			$reply = CreateForumPost($dbh, $title, $text, $user, $cat, $time);
+			$reply = SlaPostOp($dbh, $title, $text, $user, $cat, $time);
 			$errMsg = $reply;
 			$_POST = array();
 			header('Location: ./forumOverview.php?cat='.$cat);
@@ -50,11 +53,11 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 					<?php echo $errMsg;?>
 					<h4>Categorie: <?php echo $cat;?></h4>
 					<h2>Titel:</h2>
-					<input class="fullfield" type="text" placeholder="Titel van je topic..." name="title" />
+					<input class="fullfield" type="text" value="<?php echo $title;?>" placeholder="Titel van je topic..." name="title" />
 					<br>
 					<hr>
 					<h2>Tekst:
-					<textarea rows="15" class="fullfield" name="postText" placeholder="Typ hier je Bericht..."></textarea>
+					<textarea rows="15" class="fullfield" name="postText" value="<?php echo $text; ?>" placeholder="Typ hier je Bericht..."></textarea>
 					<input type="submit" value="Verstuur" name="send" />
 				</div>
 			</div>

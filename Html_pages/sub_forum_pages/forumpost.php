@@ -2,9 +2,9 @@
 require_once("../../functions.php");
 require_once('../../dbConnection.php');
 $userErr = "";
-CheckSession();
+ControleerLogin();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
-$postData = GetForumPost($dbh, $id);
+$postData = HaalForumBerichtOp($dbh, $id);
 if($postData['PDORetCode'] == 1) {
 	$postData = $postData['data'];
 } else {
@@ -21,14 +21,14 @@ if(isset($_POST['opslaan'])) {
 		$text = nl2br(urlencode(htmlentities($text)));
 		$time = time();
 		
-		$userErr = SavePostReply($dbh, $id, $text, $_SESSION['LoginName'], $time);
-		$postReplies = GetPostReplies($dbh, $id);
+		$userErr = ReactieOpslaan($dbh, $id, $text, $_SESSION['LoginName'], $time);
+		$postReplies = HaalBerichtReactiesOp($dbh, $id);
 
 		header('Location: ./forumpost.php?id='.$id);
 	}
 }
 
-$postReplies = GetPostReplies($dbh, $id);
+$postReplies = HaalBerichtReactiesOp($dbh, $id);
 if($postReplies['PDORetCode'] == 1) {
 	$postReplies = $postReplies['data'];
 } else {

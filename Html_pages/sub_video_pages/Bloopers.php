@@ -1,7 +1,7 @@
 <?php
 require_once("../../functions.php");
 require_once('../../dbConnection.php');
-CheckSession();
+ControleerLogin();
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -13,7 +13,7 @@ CheckSession();
 <body>
 
 <?php require_once("../../header.php"); 
-$Videos = GetVideos($dbh, "bloopers");
+$Videos = HaalVideosOp($dbh, "bloopers");
 
 $continue = false;
 if($Videos['PDORetCode'] == 1) {

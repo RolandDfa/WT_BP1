@@ -2,10 +2,10 @@
 require_once ('../functions.php');
 require_once ('../dbConnection.php');
 
-CheckSession();
+ControleerLogin();
 $FirstName = $LastName = $Username = $Password = $RetypePassword = $GeneralErr = $Success = "";
 
-$FnameErr = $LnameErr = $UserErr = $PassErr = $RePassErr = NULL;
+$FnameErr = $LnameErr = $UserErr = $PassErr = $RePassErr = "";
 $CheckOnErrors = true;
 if(isset($_POST['registerbtn']))
 {
@@ -18,7 +18,7 @@ if(isset($_POST['registerbtn']))
 	
 	$_POST['psw'] = $_POST['psw-repeat'] = NULL;
 	
-	$UniqueName = is_Username_Unique($Username, $dbh);
+	$UniqueName = IsGebruikersnaamUniek($Username, $dbh);
 	if($UniqueName['PDORetCode'] == 0) {
 		$CheckOnErrors = true;
 		$GeneralErr = "Er trad een onbekende fout op. Probeer het later opnieuw.";
@@ -34,7 +34,7 @@ if(isset($_POST['registerbtn']))
         $FnameErr = "Voornaam veld is vereist";
         $CheckOnErrors = true;
     }
-    elseif(!is_Char_Only($FirstName) || !is_minlength($FirstName, 2))
+    elseif(!IsAlleenKarakters($FirstName) || !IsMinimumLengte($FirstName, 2))
     {
         $FnameErr = "Mag alleen uit karakters bestaan en is minimaal 2 karakters lang";
         $CheckOnErrors = true;
@@ -44,7 +44,7 @@ if(isset($_POST['registerbtn']))
         $LnameErr = "Voornaam veld is vereist";
         $CheckOnErrors = true;
     }
-    elseif(!is_Char_Only($LastName) || !is_minlength($LastName, 2))
+    elseif(!IsAlleenKarakters($LastName) || !IsMinimumLengte($LastName, 2))
     {
         $LnameErr = "Mag alleen uit karakters bestaan en is minimaal 2 karakters lang";
         $CheckOnErrors = true;
@@ -54,7 +54,7 @@ if(isset($_POST['registerbtn']))
         $UserErr = "Username veld is vereist";
         $CheckOnErrors = true;
     }
-    elseif(!is_Char_Only($Username) || !is_minlength($Username, 2))
+    elseif(!IsAlleenKarakters($Username) || !IsMinimumLengte($Username, 2))
     {
         $UserErr = "Mag alleen uit karakters bestaan en is minimaal 2 karakters lang";
         $CheckOnErrors = true;
@@ -84,8 +84,8 @@ if(isset($_POST['registerbtn']))
     }
     if($CheckOnErrors == false)
     {
-		$Password = HashPassword($Password, $Username);
-		$UserSaved = RegisterUser($dbh, $Username, $Password, $FirstName, $LastName);
+		$Password = GenereerWachtwoord($Password, $Username);
+		$UserSaved = RegistreerGebruiker($dbh, $Username, $Password, $FirstName, $LastName);
 		if($UserSaved == 1) {
 			$Success = 'Je account is succesvol aangemaakt. Klik op "login" om in te loggen';
 		} else {
@@ -129,7 +129,7 @@ if(isset($_POST['registerbtn']))
 
                             <span style="color:red"><?php echo $UserErr; ?></span>
                             <p><b>Gebruikersnaam</b></p>
-                            <input type="text" placeholder="Voer gebruikersnaam in" name="username" required><br/>
+                            <input type="text" placeholder="Voer gebruikersnaam in" name="username" value="<?php echo $Username;?>" required><br/>
                             <span style="color:red"><?php echo $PassErr; ?></span>
                            <p><b>Wachtwoord</b></p>
                             <input type="password" placeholder="Voer wachtwoord in" name="psw" required><br/>
@@ -139,11 +139,11 @@ if(isset($_POST['registerbtn']))
                             <hr>
                             <span style="color:red"><?php echo $FnameErr; ?></span>
                             <p><b>Voornaam</b></p>
-                            <input type="text" placeholder="Voornaam" name="firstname" required>
+                            <input type="text" placeholder="Voornaam" name="firstname" value="<?php echo$FirstName;?>" required>
                             <hr>
                             <span style="color:red"><?php echo $LnameErr; ?></span>
                             <p><b>Achternaam</b></p>
-                            <input type="text" placeholder="Achternaam" name="lastname" required>
+                            <input type="text" placeholder="Achternaam" name="lastname" value="<?php echo $LastName;?>" required>
                             <hr>
                             <p>Met het aanmaken van een account, gaat u akkoord met onze voorwaarden <a href="#">Terms & Privacy</a>.</p>
 
