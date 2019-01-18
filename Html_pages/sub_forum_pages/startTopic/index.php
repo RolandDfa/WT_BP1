@@ -5,6 +5,8 @@ ControleerLogin();
 $title = $text = "";
 if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['token'] != '') {
 	$cat = $_GET['cat'];
+	$key = $_GET['token'];
+	$salt = $_SESSION['TOKENSALT'];
 	
 	$errMsg = "";
 	$continue = false;
