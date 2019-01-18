@@ -44,42 +44,7 @@ if($loginReturn['code'] == 0) {
 <body>
 <!-- all the content on the top of the page -->
     <div class="header">
-        <!-- blocks containing the title and logo -->
-        <div class="menu-block">
-            <div class="site-header">
-                <a href="../index.php">
-                    <img class="header-img" src="../images/Soccerball.svg" alt="voetbal_logo" /></a>
-                <div class="site-header-block">
-                    <h1 class="site-title">Füssball Inside Nimma</h1>
-                </div>
-        </div>
-        <!-- block containing the menu -->
-            <div class="navbar">
-                <a class="menu-item" href="../index.php">Home</a>
-                <div class="dropdown">
-                    <button class="dropbtn">Video's
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="menu-item" href="sub_video_pages/spelregels.php">Spelregels</a>
-                        <a class="menu-item" href="sub_video_pages/tactiek.php">Tactiek</a>
-                        <a class="menu-item" href="sub_video_pages/Bloopers.php">Bloopers</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Forum
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="menu-item" href="sub_forum_pages/algemeen.php">Algemeen</a>
-                        <a class="menu-item" href="sub_forum_pages/wedstrijden.php">Wedstrijden</a>
-                        <a class="menu-item" href="sub_forum_pages/onzin_forum.php">Onzin</a>
-                    </div>
-                </div>
-                <a class="menu-item" href="over_ons.php">Over ons</a>
-                <a class="menu-item menu-right" href="register.php">Bezoeker</a>
-            </div>
-    </div>
+        
     <!-- block containing the main content of the page -->
         <div class="flex-container content">
             <div class="content-block">
@@ -112,12 +77,7 @@ if($loginReturn['code'] == 0) {
                         <p>Bijdrage leveren? <a href="bijdrage.html">Klik hier om een bijdrage te leveren</a> </p>
                     </div>
                 </div>
-                <footer>
-                    <p><strong>&#169; 2018 - Roland Huijskes, Thijs-Jan Guelen</strong></p>
-                    <p>Thema: voetbal</p>
-                    <p><strong>Contact information: <a href="mailto:someone@example.com">
-                        someone@example.com</a>.</strong></p>
-                </footer>
+                <?php require_once("../footer.php");?>
             </div>
         </div>
     </div>
