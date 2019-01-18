@@ -3,6 +3,7 @@ function ControleerLogin() {
 	if(!isset($_SESSION)) {
 		session_start();
 	}
+
 }	
 
 //bezoeker gerelateerde functies
