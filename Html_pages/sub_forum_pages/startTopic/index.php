@@ -22,7 +22,7 @@ if(isset($_GET['cat']) && $_GET['cat'] != '' && isset($_GET['token']) && $_GET['
 			$text = isset($_POST['postText']) ? $_POST['postText'] : '';
 			
 			$title = urlencode(htmlentities($title));
-			$text = nl2br(urlencode(htmlentities($text)));
+			$text = urlencode(nl2br(htmlentities($text)));
 			
 			$user = $_SESSION['LoginName'];
 			$time = time();
