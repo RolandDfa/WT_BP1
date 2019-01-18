@@ -41,7 +41,7 @@ ControleerLogin();
 			$key = GenereerForumAccessToken($cat, $_SESSION['name'], $salt);
 		?>
 		<div class="forum-block-inner">
-			<a href="./startTopic.php?cat=<?php echo $cat.'&token='.$key;?>"><button>Start een nieuw topic</button></a>
+		<a href="./startTopic.php?cat=<?php echo $cat.'&token='.$key;?>">Start een nieuw topic</a>
 		</div>
 		<?php } ?>
         <div class="block">
