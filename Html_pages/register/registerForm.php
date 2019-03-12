@@ -1,3 +1,8 @@
+<!--
+Team: Roland Huijskes en Thijs-Jan Guelen
+Auteurs: Roland Huijskes en Thijs-Jan Guelen
+-->
+
 <!DOCTYPE html>
 <html lang="nl-NL" xmlns="http://www.w3.org/1999/xhtml">
 	<head>

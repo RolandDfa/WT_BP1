@@ -22,25 +22,21 @@ Auteurs: Roland Huijskes en Thijs-Jan Guelen
 				<!-- the content itself -->
 				<div class="block">
 					<div class="login">
-						<h1>Login</h1>
+						<h1>Posts op het forum</h1>
 						<!-- login form -->
-						<form method="POST" action="#">
-							<span style="color:red"><?php echo $loginErr;?></span>
-							<table>
-								<tr>
-									<td>gebruikersnaam:</td>
-									<td><input type="text" name="username" placeholder="username" /></td>
-								</tr>
-								<tr>
-									<td>wachtwoord:</td>
-									<td><label><input type="password" name="passwd" /></label></td>
-								</tr>
-								<tr>
-									<td><input type="submit" name="login" value="inloggen" /></td>
-									<td></td>
-								</tr>
-							</table>
-						</form>
+							<?php
+								$GebruikerPosts = PostsPerGebruiker($dbh, $_SESSION['LoginName']);
+
+								if($GebruikerPosts['PDORetCode'] == 1) {
+									$tabel = '<table><thead><tr><th>Titel</th><th>Rubriek</th><th>Bewerk</th><th>Verwijder</th></thead><tbody>';
+									foreach($GebruikerPosts['data'] as $val) {
+										$tabel = $tabel.'<tr><td>'.urldecode($val['kopje']).'</td><td>'.$val['rubriek'].'</td><td><a href="../sub_forum_pages/startTopic/bewerk.php?cat='.$val['rubriek'].'&id='.$val['id'].'">bewerk</a></td><td><a href="./delete.php?id='.$val['id'].'">verwijder</a></td></tr>';
+									}
+									echo $tabel;
+								} else {
+									echo "<h2>Er ging iets fout</h2>";
+								}
+							?>
 					</div>
 					<div class="login-help">
 						<p>Wachtwoord vergeten? <a href="../../index.php">Klik hier om te resetten</a>.</p>

@@ -1,3 +1,8 @@
+<!--
+Team: Roland Huijskes en Thijs-Jan Guelen
+Auteurs: Roland Huijskes en Thijs-Jan Guelen
+-->
+
 <?php
 $hostname = "(local)";
 $dbname = "themasite";

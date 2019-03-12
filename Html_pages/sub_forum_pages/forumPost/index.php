@@ -1,10 +1,15 @@
+<!--
+Team: Roland Huijskes en Thijs-Jan Guelen
+Auteurs: Roland Huijskes en Thijs-Jan Guelen
+-->
+
 <?php
 require_once("../../../functions.php");
 require_once('../../../dbConnection.php');
 $userErr = "";
 ControleerLogin();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
-$postData = HaalForumBerichtOp($dbh, $id);
+$postData = HaalForumPostOp($dbh, $id);
 if($postData['PDORetCode'] == 1) {
 	$postData = $postData['data'];
 } else {

@@ -1,4 +1,9 @@
 <?php
+/*
+Team: Roland Huijskes en Thijs-Jan Guelen
+Auteurs: Roland Huijskes en Thijs-Jan Guelen
+Inspiratie: Broncode van de website van GennepNews
+*/
 function ControleerLogin() {
 	if(!isset($_SESSION)) {
 		session_start();
@@ -76,7 +81,7 @@ function GenereerForumOverzicht($posts) {
 	return $Ret;
 }
 
-function HaalForumBerichtOp($dbh, $id) {
+function HaalForumPostOp($dbh, $id) {
 	$ret = array('PDORetCode'=>0);
 	try {
 		$Query = 'SELECT * FROM posts WHERE id = :id';
@@ -166,6 +171,20 @@ function GenereerWachtwoord($passwd, $user) {
 	return $StageTwoKey;
 }
 
+function PostsPerGebruiker($dbh, $user) {
+	$Ret = array('PDORetCode'=>0);
+	try {
+		$stmt = $dbh->prepare("SELECT * FROM posts WHERE bezoeker = :user");
+		$stmt->execute([':user'=>$user]);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$Ret = array('PDORetCode'=>1, 'data'=>$data);
+	}
+	catch(PDOException $e) {
+		$Ret = array('PDORetCode'=>0);
+	}
+	return $Ret;
+}
+
 function SlaPostOp($dbh, $title, $text, $user, $cat, $time) {
 	$Ret = "";
 	try {
@@ -182,6 +201,37 @@ function SlaPostOp($dbh, $title, $text, $user, $cat, $time) {
 		$Ret = "<h2>Er ging iets mis. Probeer het later opnieuw</h2>";
 	}
 	return $Ret;
+}
+
+function VerwijderPost($dbh, $user, $postid) {
+	$Ret = array('PDORetCode'=>0);
+	$continue = false;
+    try
+    {
+        $stmt = $dbh->prepare("DELETE FROM posts WHERE id = :postid AND bezoeker = :user");
+        $stmt->execute([':postid'=>$postid, ':user'=>$user]);
+		//$Ret = array('PDORetCode'=>1, 'data'=>$data);
+		$continue = true;
+    }
+    catch(PDOException $e) {
+        $Ret = array('PDORetCode'=>0);
+    }
+	if($continue) 
+		try
+		{
+			$stmt = $dbh->prepare("SELECT COUNT(*) FROM posts WHERE id = :postid AND bezoeker = :user");
+			$stmt->execute([':postid'=>$postid, ':user'=>$user]);
+			$data = $stmt->fetch(PDO::FETCH_NUM);
+			if($data[0][0] != 0) {
+				$Ret = array('PDORetCode'=>0);
+			} else {
+				$Ret = array('PDORetCode'=>1);
+			}
+		}
+		catch(PDOException $e) {
+			$Ret = array('PDORetCode'=>0);
+		}
+    return $Ret;
 }
 
 function RecentePosts($dbh)

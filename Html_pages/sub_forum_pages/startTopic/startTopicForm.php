@@ -1,3 +1,8 @@
+<!--
+Team: Roland Huijskes en Thijs-Jan Guelen
+Auteurs: Roland Huijskes en Thijs-Jan Guelen
+-->
+
 <!DOCTYPE html>
 <html lang="nl" xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -19,7 +24,7 @@
 							<br>
 							<hr>
 							<h2>Tekst:
-							<textarea rows="15" class="fullfield" name="postText" value="<?php echo $text; ?>" placeholder="Typ hier je Bericht..."></textarea>
+							<textarea rows="15" class="fullfield" name="postText" placeholder="Typ hier je Bericht..."><?php echo $text; ?></textarea>
 							<input type="submit" value="Verstuur" name="send" />
 						</div>
 					</div>

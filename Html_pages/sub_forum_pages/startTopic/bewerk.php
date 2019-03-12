@@ -1,13 +1,25 @@
-<!--
+<?php
+/*
 Team: Roland Huijskes en Thijs-Jan Guelen
 Auteurs: Roland Huijskes en Thijs-Jan Guelen
--->
-
-<?php
+*/
 require_once('../../../functions.php');
 require_once('../../../dbConnection.php');
 ControleerLogin();
 $title = $text = "";
+
+$PostID = $value = isset($_GET['id']) ? $_GET['id'] : '';
+$Post = HaalForumPostOp($dbh, $PostID);
+
+
+if($Post['data']['bezoeker'] != $_SESSION['LoginName']) {
+	header('Location: ../../../');
+	exit;
+}
+
+$title = $Post['data']['kopje'];
+$text = $Post['data']['tekst'];
+
 if(isset($_GET['cat']) && $_GET['cat'] != '') {
 	$cat = $_GET['cat'];
 	

@@ -1,4 +1,9 @@
-﻿<?php
+﻿<!--
+Team: Roland Huijskes en Thijs-Jan Guelen
+Auteurs: Roland Huijskes en Thijs-Jan Guelen
+-->
+
+<?php
 require_once('dbConnection.php');
 require_once('functions.php');
 $posts = RecentePosts($dbh);

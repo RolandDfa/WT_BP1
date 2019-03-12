@@ -1,3 +1,8 @@
+<!--
+Team: Roland Huijskes en Thijs-Jan Guelen
+Auteurs: Roland Huijskes en Thijs-Jan Guelen
+-->
+
 <div class="header">
 	<!-- blocks containing the title and logo -->
 	<div class="menu-block">
@@ -38,6 +43,7 @@
 	    <?php if(!isset($_SESSION['loggedIn'])) {?>
 		<a class="menu-item menu-right" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/register/">Bezoeker</a>
 		<?php } else { ?>
+		<a class="menu-item menu-right" href="<?php $_SERVER['SERVER_NAME'];?>/Html_pages/bezoeker/">Bezoeker</a>
 		<a class="menu-item menu-right" href="<?php $_SERVER['SERVER_NAME'];?>/logout.php">Uitloggen</a>
 		<?php } ?>
 	    <div class="menu-item menu-right">
